@@ -1,0 +1,22 @@
+Actionscript Code Style
+
+ALWAYS TYPE:
+No: var i; //wrong
+Do: var i:int; //right
+
+Basic comments in every .as file:
+/*
+	The Main Player class
+*/
+package {...}
+
+Member variables in class should begin with '_':
+public class Circle{
+	var _radius:int;
+}
+
+Use 'this' when not calling defined variables/functions:
+
+this.x = 5; //right
+x += 1;  //wrong
+_radius = 7; //ok

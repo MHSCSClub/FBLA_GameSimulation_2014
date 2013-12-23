@@ -13,14 +13,14 @@ package  {
 		private var _keycode:Array = [];
 		private var _added:Boolean = false;
 		private function keymove():void { //moves the Player
-			if(_keycode[Keyboard.UP]) this.y -= moveunit;
-			if(_keycode[Keyboard.DOWN]) this.y += moveunit;
-			if(_keycode[Keyboard.RIGHT]) this.x += moveunit;
-			if(_keycode[Keyboard.LEFT]) this.x -= moveunit;
+			if(_keycode[Keyboard.UP]) check_set_y(this.y - moveunit);
+			if(_keycode[Keyboard.DOWN]) check_set_y(this.y + moveunit);
+			if(_keycode[Keyboard.RIGHT]) check_set_x(this.x + moveunit);
+			if(_keycode[Keyboard.LEFT]) check_set_x(this.x - moveunit);
 		}
 		public function check_set_x(nx:int):Boolean {
 			if(_added){
-				if(nx > 0 && nx < this.stage.width){
+				if(nx > 0 + this.width / 2 && nx < this.stage.stageWidth - this.width / 2){
 					this.x = nx;
 					return true;
 				}
@@ -29,7 +29,7 @@ package  {
 		}
 		public function check_set_y(ny:int):Boolean {
 			if(_added){
-				if(ny > 0 && ny < this.stage.height){
+				if(ny > 0 + this.height / 2 && ny < this.stage.stageHeight - this.height / 2){
 					this.y = ny;
 					return true;
 				}

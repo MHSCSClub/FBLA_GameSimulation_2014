@@ -20,3 +20,8 @@ Use 'this' when not calling defined variables/functions:
 this.x = 5; //right
 x += 1;  //wrong
 _radius = 7; //ok
+
+No one letter variable names aside from 'for()'
+
+for(var i:int = 0; i < 5; ++i) //ok
+var i:int = 0; //wrong

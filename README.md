@@ -4,4 +4,4 @@ Computer Simulation for FBLA 13-14
 
 Read Code Style!!
 
---Yi Zhao
+--Victor Odouard, Yi Zhao, Jack Phillips

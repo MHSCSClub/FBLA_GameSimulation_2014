@@ -10,7 +10,7 @@ Basic comments in every .as file:
 */
 package {...}
 
-Member variables in class should begin with '_':
+Private member variables in class should begin with '_':
 public class Circle{
 	var _radius:int;
 }
@@ -25,3 +25,5 @@ No one letter variable names aside from 'for()'
 
 for(var i:int = 0; i < 5; ++i) //ok
 var i:int = 0; //wrong
+
+Inherited functions must be called using super:

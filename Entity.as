@@ -3,6 +3,11 @@
 	An entity is anything that is affected by gravity/physics
 	THIS CLASS SHOULD NOT BE CONSTRUCTED DIRECTLY
 	Use this class only through inheritance
+	List of physics:
+	Gravity (imp)
+	Bouncing (imp)
+	Friction (imp)
+	Bouncing (TODO)
 */
 package  {
 	
@@ -28,6 +33,9 @@ package  {
 		public var bounceBasePower:Number = 20;
 		public var bounceIncreaseMultiplier:Number = 1;
 		
+		public var frictionEnabled:Boolean = true;
+		public var frictionMultiplier:Number = 0.2;
+		
 		public function Entity(nx:int = 0, ny:int = 0) {
 			this.x = nx + this.width / 2;
 			this.y = ny + this.height / 2;
@@ -37,6 +45,10 @@ package  {
 		public function entity_update(): void {
 			var stage_limit_l:Number = 0 + this.width / 2;
 			var stage_limit_r:Number = this.stage.stageWidth - this.width / 2;
+			
+			//Friction
+			if(frictionEnabled && onGround)
+				movex *= frictionMultiplier;
 			
 			var nx:Number = this.x + movex;
 			if(nx > stage_limit_l && nx < stage_limit_r)

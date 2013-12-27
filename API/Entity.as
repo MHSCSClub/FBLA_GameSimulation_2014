@@ -8,9 +8,8 @@
 	Bouncing
 	Friction 
 	Sliding
-	EdgeBump (TODO)
 */
-package  {
+package API {
 	
 	import flash.display.MovieClip;
 	
@@ -24,9 +23,11 @@ package  {
 		private var _currentSlide:int = 0;
 		private var _isSliding:Boolean = false;
 		
-		protected var onGround:Boolean = false;		
+		protected var onGround:Boolean = false;
 		protected var movex:Number = 0;
 		protected var movey:Number = 0;
+		
+		//protected var testPoint
 		
 		public var gravityEnabled:Boolean = true;
 		public var gravityBasePower:Number = 8;
@@ -37,7 +38,7 @@ package  {
 		public var bounceBasePower:Number = 20;
 		public var bounceIncreaseMultiplier:Number = 1;
 		
-		public var frictionEnabled:Boolean = false;
+		public var frictionEnabled:Boolean = true;
 		public var frictionMultiplier:Number = 0.2;
 		
 		public var slidingEnabled:Boolean = true;
@@ -76,7 +77,8 @@ package  {
 			if(nx > stage_limit_l && nx < stage_limit_r)
 				this.x = nx;
 			else{
-				
+				var closer:Number = nx <= stage_limit_l ? stage_limit_l : stage_limit_r;			
+				this.x = closer;
 			}
 			
 			//temporary variable for debugging purposes
@@ -91,7 +93,8 @@ package  {
 			//Bounce
 			if(bounceEnabled){
 				if(onGround){
-					_bounceHeight = this.y - (this.y - _maxHeightReached) * bounceBackHeight;
+					_bounceHeight = Math.ceil(this.y - (this.y - _maxHeightReached) * bounceBackHeight);
+					trace(_bounceHeight);
 					gravityEnabled = false;
 					onGround = false;
 				}

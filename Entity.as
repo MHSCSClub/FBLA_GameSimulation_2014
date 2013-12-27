@@ -4,10 +4,11 @@
 	THIS CLASS SHOULD NOT BE CONSTRUCTED DIRECTLY
 	Use this class only through inheritance
 	List of physics:
-	Gravity (imp)
-	Bouncing (imp)
-	Friction (imp)
-	Bouncing (TODO)
+	Gravity
+	Bouncing
+	Friction 
+	Sliding
+	EdgeBump (TODO)
 */
 package  {
 	
@@ -19,6 +20,9 @@ package  {
 		private var _currentBounce:Number = bounceBasePower;
 		private var _maxHeightReached:Number = Number.MAX_VALUE;
 		private var _bounceHeight:int = 0;
+		
+		private var _currentSlide:int = 0;
+		private var _isSliding:Boolean = false;
 		
 		protected var onGround:Boolean = false;		
 		protected var movex:Number = 0;
@@ -33,8 +37,11 @@ package  {
 		public var bounceBasePower:Number = 20;
 		public var bounceIncreaseMultiplier:Number = 1;
 		
-		public var frictionEnabled:Boolean = true;
+		public var frictionEnabled:Boolean = false;
 		public var frictionMultiplier:Number = 0.2;
+		
+		public var slidingEnabled:Boolean = true;
+		public var slideDecreaseMultiplier = .9;
 		
 		public function Entity(nx:int = 0, ny:int = 0) {
 			this.x = nx + this.width / 2;
@@ -50,9 +57,27 @@ package  {
 			if(frictionEnabled && onGround)
 				movex *= frictionMultiplier;
 			
+			//Sliding
+			if(slidingEnabled){
+				if(movex != 0 && !_isSliding){
+					_currentSlide = movex;
+				} else if(movex == 0 && !_isSliding) {
+					_isSliding = true;
+				} else if(movex != 0 && _isSliding){
+					_isSliding = false;
+				}
+				if(_isSliding && movex == 0){
+					movex += _currentSlide;
+					_currentSlide *= slideDecreaseMultiplier;
+				}
+			}
+			
 			var nx:Number = this.x + movex;
 			if(nx > stage_limit_l && nx < stage_limit_r)
 				this.x = nx;
+			else{
+				
+			}
 			
 			//temporary variable for debugging purposes
 			var t_ground:Number = this.stage.stageHeight - this.height / 2;

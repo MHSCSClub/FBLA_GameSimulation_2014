@@ -12,6 +12,8 @@
 package API {
 	
 	import flash.display.MovieClip;
+	import flash.geom.Point;
+	import flash.display.Shape;
 	
 	public class Entity extends MovieClip{
 		private var _currentGravity:Number = gravityBasePower;
@@ -27,7 +29,7 @@ package API {
 		protected var movex:Number = 0;
 		protected var movey:Number = 0;
 		
-		//protected var testPoint
+		protected var testPoint:Array = [];
 		
 		public var gravityEnabled:Boolean = true;
 		public var gravityBasePower:Number = 8;
@@ -44,9 +46,13 @@ package API {
 		public var slidingEnabled:Boolean = true;
 		public var slideDecreaseMultiplier = .9;
 		
+		public static var envObj:Array = [];
+		
 		public function Entity(nx:int = 0, ny:int = 0) {
 			this.x = nx + this.width / 2;
 			this.y = ny + this.height / 2;
+			var np:Point = new Point();
+			testPoint.push(np);
 		}
 		
 		//Functionality, physics is provided by update
@@ -94,7 +100,6 @@ package API {
 			if(bounceEnabled){
 				if(onGround){
 					_bounceHeight = Math.ceil(this.y - (this.y - _maxHeightReached) * bounceBackHeight);
-					trace(_bounceHeight);
 					gravityEnabled = false;
 					onGround = false;
 				}
@@ -116,12 +121,11 @@ package API {
 			//Gravity
 			if(gravityEnabled){
 				ny = this.y + _currentGravity;
-				if(ny <= t_ground){
-					this.y = ny;
+				if(!gravity_collision(ny)){
 					_currentGravity *= gravityIncreaseMultiplier;
 					onGround = false;
 				}else if(!onGround){
-					this.y = t_ground;
+					gravity_collision(ny);
 					_currentGravity = gravityBasePower;
 					onGround = true;
 				}
@@ -131,6 +135,42 @@ package API {
 			movex = 0;
 			movey = 0;
 		}
+		public function gravity_collision(ny:Number): Boolean {
+			var nl:Shape = new Shape();
+			var isCollision:Boolean = false;
+			var collidobj:Environment;
+			nl.graphics.lineStyle(1, 0xFF0000, 1);
+			nl.graphics.moveTo(this.x, this.y + this.height / 2);
+			nl.graphics.lineTo(this.x, ny + this.height / 2);
+			//stage.addChild(nl);
+			for(var i:int = 0; i < envObj.length; ++i){
+				if(envObj[i].hitTestObject(nl)){
+					isCollision = true;
+					collidobj = envObj[i];
+					//trace("Collision!");
+					break;
+				}
+			}
+			nl.graphics.clear();
+			
+			//If there are no collisions, return
+			if(!isCollision){
+				this.y = ny;
+				return false;
+			}
+			
+			for(var p:int = this.y + this.height / 2; p < ny + this.height / 2; ++p){
+				if(collidobj.hitTestPoint(this.x, p, true)){
+/*					nl.graphics.moveTo(this.x, this.y);
+					nl.graphics.lineTo(this.x, p);
+					stage.addChild(nl);
+					nl.graphics.lineStyle(1, 0x00FF00, 1);*/
+					//trace(p);
+					this.y = p - this.height / 2;
+					break;
+				}
+			}
+			return true;
+		}
 	}
-	
 }

@@ -10,6 +10,9 @@ package  {
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import flash.ui.Keyboard;
+	import API.Entity;
+	import flash.geom.Point;
+	
 	public class Player extends Entity{
 		private var _keycode:Array = [];
 		private var _jcount:int = 0;
@@ -18,7 +21,8 @@ package  {
 		public var jumpunit:int = 40;
 		public var jumplimit:int = 4;
 		
-		private function keymove():void { //moves the Player
+		//Responsible for player move
+		private function keymove():void {
 			//Jump
 			if(_keycode[Keyboard.UP] && _jcount == 0 && this.onGround) {
 				_jcount = jumplimit + 1;
@@ -36,19 +40,16 @@ package  {
 			//Right Left movement
 			if(_keycode[Keyboard.RIGHT]){ 
 				this.movex += moveunit; 
-				//this.bounceEnabled = false;
 			}
 			if(_keycode[Keyboard.LEFT]) {
 				this.movex -= moveunit;
-			}
-			if(_keycode[Keyboard.B]) {
-				this.bounceEnabled = false;
 			}
 		}
 		
 		public function Player(nx:int = 0, ny:int = 0) {
 			super(nx, ny);
-			//this.bounceEnabled = false;
+			this.bounceEnabled = false;
+			this.frictionEnabled = false;
 		}
 		public function bindEnterFrame(evt:Event):void {
 			stop();
@@ -62,5 +63,4 @@ package  {
 			_keycode[kevt.keyCode] = false;
 		}
 	}
-	
 }

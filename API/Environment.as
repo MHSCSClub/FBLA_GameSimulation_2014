@@ -26,6 +26,11 @@ package API {
 			return 1;
 		}
 		
+		public function scroll_obj(movex:Number, movey:Number): void {
+			this.x = this.x - movex;
+			this.y = this.y - movey;
+		}
+		
 		//Virtual
 		public function setVariables(ett:Entity): void {
 			

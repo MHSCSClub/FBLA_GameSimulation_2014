@@ -49,6 +49,8 @@ package API {
 		
 		public var environmentSetVariablesEnabled:Boolean = true;
 		
+		public var scrollEnabled = false;
+		
 		public static var envObj:Array = [];
 		
 		public function Entity(nx:int = 0, ny:int = 0) {
@@ -82,21 +84,11 @@ package API {
 				}
 			}
 			
-/*			var nx:Number = this.x + movex;
-			if(nx > stage_limit_l && nx < stage_limit_r)
-				this.x = nx;
-			else{
-				var closer:Number = nx <= stage_limit_l ? stage_limit_l : stage_limit_r;			
-				this.x = closer;
-			}*/
 			if(movex != 0)
 				move_collision(this.x + movex);
 			
-			//temporary variable for debugging purposes
-			var t_ground:Number = this.stage.stageHeight - this.height / 2;
 			var ny:Number = this.y + movey;
-			if(ny <= t_ground) //Limit still has to be implemented
-				this.y = ny;
+			scroll_y(ny);
 			
 			if(!onGround && this.y < _maxHeightReached)
 				_maxHeightReached = this.y;
@@ -136,10 +128,12 @@ package API {
 				}
 			}
 			
+			for(var i:int = 0; i < envObj.length; ++i)
 			//Reset variables
 			movex = 0;
 			movey = 0;
 		}
+		
 		public function gravity_collision(ny:Number): Boolean {
 			var vl:Shape = new Shape();
 			var isCollision:Boolean = false;
@@ -162,7 +156,7 @@ package API {
 			
 			//If there are no collisions, return
 			if(collidobj.length == 0){
-				this.y = ny;
+				scroll_y(ny);
 				return false;
 			}
 			
@@ -170,7 +164,7 @@ package API {
 			collidobj.sort(Environment.less_y);
 			for(var q:int = 0; q < collidobj.length; ++q){
 				for(p = 1; p <= 2; ++p){
-				for(i = this.y + testPoint[3]; i < ny + testPoint[3]; ++i){
+					for(i = this.y + testPoint[3]; i < ny + testPoint[3]; ++i){
 						if(collidobj[q].hitTestPoint(this.x + testPoint[p], i, true) && 
 							!collidobj[q].hitTestPoint(this.x + testPoint[p], i - 1, true)){
 							//Debugging lines
@@ -179,7 +173,7 @@ package API {
 							dl.graphics.lineTo(this.x + testPoint[p], i - 1);
 							stage.addChild(dl);*/
 							
-							this.y = i - this.height / 2;
+							scroll_y(i - this.height / 2);
 							if(environmentSetVariablesEnabled)
 								collidobj[q].setVariables(this);
 							return true;
@@ -187,24 +181,28 @@ package API {
 					}
 				}
 			}
-			this.y = ny;
+			scroll_y(ny);
 			return false;
 		}
 		public function move_collision(nx:Number) : Boolean {
 			var hl:Shape = new Shape;
 			var isCollision:Boolean = false;
 			var collidobj:Array = [];
+			var setPoint:Number = 0;
+			var inc:int = 0;
+			
+			if(nx - this.x > 0){
+				setPoint = this.x + testPoint[2]; //moving to the right
+				inc = 1;
+			} else {
+				setPoint = this.x + testPoint[1]; //moving to the left
+				inc = -1;
+			}
 			
 			hl.graphics.lineStyle(1, 0xFF0000, 1);
 			for(var i:int = 0; i < envObj.length; ++i){
 				for(var p:int = 3; p <= 4; ++p){
 					for(var q:Number = -this.height / 4; q < this.height / 2; q += this.height / 4){
-						var setPoint:Number;
-						if(nx - this.x > 0){
-							setPoint = this.x + testPoint[2]; //moving to the right
-						} else {
-							setPoint = this.x + testPoint[1]; //moving to the left
-						}
 						hl.graphics.moveTo(setPoint, this.y + q);
 						hl.graphics.lineTo(nx + setPoint - this.x, this.y + q);
 						//stage.addChild(hl);
@@ -216,25 +214,31 @@ package API {
 			}
 			hl.graphics.clear();
 			if(collidobj.length == 0){
-				this.x = nx;
+				scroll_x(nx);
 				return false;
 			}
+			
+			var dl:Shape = new Shape;
 			collidobj.sort(Environment.less_x);
-//			for(i = setPoint; i < nx; ++i){
-//				for(var r:int = 0; q < collidobj.length; ++q){
-//					if(collidobj[q].hitTestPoint(i, this.y, true)){
-//						//Debugging lines
-///*						dl.graphics.lineStyle(10, 0x00FF00, 10);
-//						dl.graphics.moveTo(this.x + testPoint[p], i);
-//						dl.graphics.lineTo(this.x + testPoint[p], i - 1);
-//						stage.addChild(dl);*/
-//						
-//						this.x = i;
-//						return true;
-//					}
-//				}
-//			}
-			return true;
+			for(p = 0; p < collidobj.length; ++p){
+				for(i = setPoint; i != nx + setPoint - this.x; i += inc){
+					for(q = -this.height / 4; q < this.height / 2; q += this.height / 4){
+						if(collidobj[p].hitTestPoint(i, this.y + q, true)){
+							scroll_x(i - (setPoint - this.x));
+							return true;
+						}
+					}
+				}
+			}
+			scroll_x(nx);
+			return false;
+		}
+		
+		public function scroll_x(nx:Number): void{
+			this.x = nx;
+		}
+		public function scroll_y(ny:Number): void {
+			this.y = ny;
 		}
 	}
 }

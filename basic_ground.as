@@ -7,7 +7,7 @@
 		
 		public function basic_ground() {
 		}
-		override protected function setVariables(ett:Entity): void {
+		override public function setVariables(ett:Entity): void {
 			ett.frictionEnabled = false;
 			ett.slidingEnabled = false;
 			ett.bounceEnabled = false;

@@ -10,7 +10,7 @@ package  {
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import flash.ui.Keyboard;
-	import API.Entity;
+	import API.*;
 	import flash.geom.Point;
 	
 	public class Player extends Entity{
@@ -20,6 +20,16 @@ package  {
 		public var moveunit:int = 10;
 		public var jumpunit:int = 40;
 		public var jumplimit:int = 4;
+		
+		public function Player(nx:int = 0, ny:int = 0) {
+			super(nx, ny);
+			
+			//offsets
+			this.testPoint.push(-this.width / 2);
+			this.testPoint.push(this.width / 2);
+			this.testPoint.push(this.height / 2);
+			this.testPoint.push(-this.height / 2);
+		}
 		
 		//Responsible for player move
 		private function keymove():void {
@@ -44,12 +54,6 @@ package  {
 			if(_keycode[Keyboard.LEFT]) {
 				this.movex -= moveunit;
 			}
-		}
-		
-		public function Player(nx:int = 0, ny:int = 0) {
-			super(nx, ny);
-			this.bounceEnabled = false;
-			this.frictionEnabled = false;
 		}
 		public function bindEnterFrame(evt:Event):void {
 			stop();

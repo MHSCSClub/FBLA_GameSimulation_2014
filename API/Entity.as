@@ -29,8 +29,8 @@ package API {
 		protected var movex:Number = 0;
 		protected var movey:Number = 0;
 		
-		//Testpoint: 0-none, 1-left, 2-right, 3-down, 4-up
-		protected var testPoint:Array = [];
+		protected var g_testpoint:Array = [];
+		protected var x_testpoint:Array = [];
 		
 		public var gravityEnabled:Boolean = true;
 		public var gravityBasePower:Number = 8;
@@ -49,15 +49,11 @@ package API {
 		
 		public var environmentSetVariablesEnabled:Boolean = true;
 		
-		public var scrollEnabled = false;
-		
 		public static var envObj:Array = [];
 		
 		public function Entity(nx:int = 0, ny:int = 0) {
 			this.x = nx + this.width / 2;
 			this.y = ny + this.height / 2;
-			var np:Point = new Point();
-			testPoint.push(np);
 		}
 		
 		//Functionality, physics is provided by update
@@ -128,7 +124,6 @@ package API {
 				}
 			}
 			
-			for(var i:int = 0; i < envObj.length; ++i)
 			//Reset variables
 			movex = 0;
 			movey = 0;
@@ -141,10 +136,9 @@ package API {
 			
 			vl.graphics.lineStyle(1, 0xFF0000, 1);
 			for(var i:int = 0; i < envObj.length; ++i){
-				for(var p:int = 1; p <= 2; ++p){
-					vl.graphics.moveTo(this.x + testPoint[p], this.y + testPoint[3]);
-					vl.graphics.lineTo(this.x + testPoint[p], ny + testPoint[3]);
-					
+				for(var p:int = 0; p < g_testpoint.length; ++p){
+					vl.graphics.moveTo(this.x + g_testpoint[p], this.y + this.height / 2);
+					vl.graphics.lineTo(this.x + g_testpoint[p], ny + this.height / 2);
 					//stage.addChild(vl); //Uncomment for debug
 					
 					if(envObj[i].hitTestObject(vl)){
@@ -162,20 +156,21 @@ package API {
 			
 			var dl:Shape = new Shape();
 			collidobj.sort(Environment.less_y);
-			for(var q:int = 0; q < collidobj.length; ++q){
-				for(p = 1; p <= 2; ++p){
-					for(i = this.y + testPoint[3]; i < ny + testPoint[3]; ++i){
-						if(collidobj[q].hitTestPoint(this.x + testPoint[p], i, true) && 
-							!collidobj[q].hitTestPoint(this.x + testPoint[p], i - 1, true)){
+			for(i = 0; i < collidobj.length; ++i){
+				for(p = 0; p <= g_testpoint.length; ++p){
+					for(var q:Number = this.y + this.height / 2; q < ny + this.height / 2; ++q){
+						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true) && 
+							!collidobj[i].hitTestPoint(this.x + g_testpoint[p], q - 1, true)){
+							
 							//Debugging lines
 /*							dl.graphics.lineStyle(10, 0x00FF00, 10);
-							dl.graphics.moveTo(this.x + testPoint[p], i);
-							dl.graphics.lineTo(this.x + testPoint[p], i - 1);
+							dl.graphics.moveTo(this.x + g_testpoint[p], q);
+							dl.graphics.lineTo(this.x + g_testpoint[p], q - 1);
 							stage.addChild(dl);*/
 							
-							scroll_y(i - this.height / 2);
+							scroll_y(q - this.height / 2);
 							if(environmentSetVariablesEnabled)
-								collidobj[q].setVariables(this);
+								collidobj[i].setVariables(this);
 							return true;
 						}
 					}
@@ -192,23 +187,23 @@ package API {
 			var inc:int = 0;
 			
 			if(nx - this.x > 0){
-				setPoint = this.x + testPoint[2]; //moving to the right
+				setPoint = this.x + this.width / 2; //moving to the right
 				inc = 1;
 			} else {
-				setPoint = this.x + testPoint[1]; //moving to the left
+				setPoint = this.x - this.width / 2; //moving to the left
 				inc = -1;
 			}
 			
 			hl.graphics.lineStyle(1, 0xFF0000, 1);
 			for(var i:int = 0; i < envObj.length; ++i){
-				for(var p:int = 3; p <= 4; ++p){
-					for(var q:Number = -this.height / 4; q < this.height / 2; q += this.height / 4){
-						hl.graphics.moveTo(setPoint, this.y + q);
-						hl.graphics.lineTo(nx + setPoint - this.x, this.y + q);
-						//stage.addChild(hl);
-						if(envObj[i].hitTestObject(hl)){
-							collidobj.push(envObj[i]);
-						}
+				for(var p:int = 0; p < x_testpoint.length; ++p){
+					hl.graphics.moveTo(setPoint, this.y + x_testpoint[p]);
+					hl.graphics.lineTo(nx + setPoint - this.x, this.y + x_testpoint[p]);
+					
+					//stage.addChild(hl);
+					
+					if(envObj[i].hitTestObject(hl)){
+						collidobj.push(envObj[i]);
 					}
 				}
 			}
@@ -217,14 +212,22 @@ package API {
 				scroll_x(nx);
 				return false;
 			}
+			var nsetPoint:int = inc == -1 ? Math.ceil(setPoint) : setPoint;
 			
+			var tmp:int = nx + setPoint - this.x;
 			var dl:Shape = new Shape;
 			collidobj.sort(Environment.less_x);
-			for(p = 0; p < collidobj.length; ++p){
-				for(i = setPoint; i != nx + setPoint - this.x; i += inc){
-					for(q = -this.height / 4; q < this.height / 2; q += this.height / 4){
-						if(collidobj[p].hitTestPoint(i, this.y + q, true)){
-							scroll_x(i - (setPoint - this.x));
+			for(i = 0; i < collidobj.length; ++i){
+				for(p = nsetPoint; p != tmp; p += inc){
+					for(var q:int = 0; q < x_testpoint.length; ++q){
+						if(collidobj[i].hitTestPoint(p, this.y + x_testpoint[q], true)){
+							//Debug
+/*							dl.graphics.lineStyle(10, 0x00FF00, 10);
+							dl.graphics.moveTo(setPoint, this.y + x_testpoint[q]);
+							dl.graphics.lineTo(p, this.y + x_testpoint[q]);*/
+							
+							stage.addChild(dl);
+							scroll_x(p - (setPoint - this.x));
 							return true;
 						}
 					}
@@ -233,7 +236,6 @@ package API {
 			scroll_x(nx);
 			return false;
 		}
-		
 		public function scroll_x(nx:Number): void{
 			this.x = nx;
 		}

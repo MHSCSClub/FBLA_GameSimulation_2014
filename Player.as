@@ -25,15 +25,17 @@ package  {
 		public var jumpunit:int = 40;
 		public var jumplimit:int = 4;
 		
+		public static var scrollObj:Array = [];
+		
 		public function Player(nx:int = 0, ny:int = 0) {
 			super(nx, ny);
-			this.scrollEnabled = true;
 			
 			//offsets
-			this.testPoint.push(-this.width / 2);
-			this.testPoint.push(this.width / 2);
-			this.testPoint.push(this.height / 2);
-			this.testPoint.push(-this.height / 2);
+			g_testpoint.push(-3.0);
+			g_testpoint.push(8);
+			for(var q:Number = -this.height / 4; q < this.height / 2; q += this.height / 4){
+				x_testpoint.push(q);
+			}
 		}
 		
 		//Responsible for player move
@@ -56,7 +58,7 @@ package  {
 				this.gravityEnabled = true;
 			}
 			//Right Left movement
-			if(_keycode[Keyboard.RIGHT]){ 
+			if(_keycode[Keyboard.RIGHT]){
 				this.movex += moveunit; 
 			}
 			if(_keycode[Keyboard.LEFT]) {
@@ -64,7 +66,6 @@ package  {
 			}
 		}
 		public function bindEnterFrame(evt:Event):void {
-			stop();
 			keymove();
 			super.entity_update();
 		}
@@ -90,8 +91,8 @@ package  {
 			var ml:Shape = new Shape();
 			var scroll:Boolean = false;
 			drawLine(this.x, this.y, nx, this.y, ml);
-			drawLine(stage.stageWidth / 5, 0, stage.stageWidth / 5, stage.stageHeight, _scroll_left_line);
-			drawLine(stage.stageWidth * (4 / 5), 0, stage.stageWidth * (4 / 5), stage.stageHeight, _scroll_right_line);
+			drawLine(stage.stageWidth / 4, 0, stage.stageWidth / 4, stage.stageHeight, _scroll_left_line);
+			drawLine(stage.stageWidth * (3 / 4), 0, stage.stageWidth * (3 / 4), stage.stageHeight, _scroll_right_line);
 			
 			if(nx - this.x > 0){
 				if(_scroll_right_line.hitTestObject(ml)){
@@ -104,8 +105,8 @@ package  {
 			}
 			
 			if(scroll){
-				for(var i:int = 0; i < envObj.length; ++i){
-					envObj[i].scroll_obj(nx - this.x, 0);
+				for(var i:int = 0; i < scrollObj.length; ++i){
+					scrollObj[i].scroll_obj(nx - this.x, 0);
 				}
 			} else{
 				this.x = nx;

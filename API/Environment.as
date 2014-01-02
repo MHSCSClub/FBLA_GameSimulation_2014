@@ -7,7 +7,7 @@ package API {
 	import flash.display.MovieClip;
 	import API.*;
 	
-	public class Environment extends MovieClip{
+	public class Environment extends MovieClip implements Scrollable{
 		
 		public function Environment() { }
 		

@@ -1,16 +1,16 @@
 ﻿package  {
 	
-	import flash.display.MovieClip;
 	import API.*;
 	
-	public class basic_ground extends Environment {
+	public class slip_ground extends Environment {
 		
-		public function basic_ground() { }
+		public function slip_ground() { }
+		
 		override public function setVariables(ett:Entity): void {
 			ett.frictionEnabled = false;
-			ett.slidingEnabled = false;
+			ett.slidingEnabled = true;
 			ett.bounceEnabled = false;
+			ett.slideDecreaseMultiplier = 1;
 		}
 	}
-	
 }

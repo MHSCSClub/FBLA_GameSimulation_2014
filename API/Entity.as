@@ -78,6 +78,8 @@ package API {
 					movex += _currentSlide;
 					_currentSlide *= slideDecreaseMultiplier;
 				}
+			} else {
+				_currentSlide = 0;
 			}
 			
 			if(movex != 0)
@@ -139,6 +141,7 @@ package API {
 				for(var p:int = 0; p < g_testpoint.length; ++p){
 					vl.graphics.moveTo(this.x + g_testpoint[p], this.y + this.height / 2);
 					vl.graphics.lineTo(this.x + g_testpoint[p], ny + this.height / 2);
+					
 					//stage.addChild(vl); //Uncomment for debug
 					
 					if(envObj[i].hitTestObject(vl)){
@@ -147,7 +150,6 @@ package API {
 				}
 			}
 			vl.graphics.clear(); //Comment for debug
-			
 			//If there are no collisions, return
 			if(collidobj.length == 0){
 				scroll_y(ny);
@@ -164,11 +166,12 @@ package API {
 							
 							//Debugging lines
 /*							dl.graphics.lineStyle(10, 0x00FF00, 10);
-							dl.graphics.moveTo(this.x + g_testpoint[p], q);
-							dl.graphics.lineTo(this.x + g_testpoint[p], q - 1);
+							dl.graphics.moveTo(this.x + g_testpoint[p], q - this.height);
+							dl.graphics.lineTo(this.x + g_testpoint[p], q - this.height);
 							stage.addChild(dl);*/
 							
-							scroll_y(q - this.height / 2);
+							
+							scroll_g_y(q - this.height / 2);
 							if(environmentSetVariablesEnabled)
 								collidobj[i].setVariables(this);
 							return true;
@@ -240,6 +243,9 @@ package API {
 			this.x = nx;
 		}
 		public function scroll_y(ny:Number): void {
+			this.y = ny;
+		}
+		public function scroll_g_y(ny:Number): void {
 			this.y = ny;
 		}
 	}

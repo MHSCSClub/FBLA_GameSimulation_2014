@@ -9,11 +9,10 @@
 		
 		override public function setVariables(ett:Entity): void {
 			ett.frictionEnabled = false;
-			ett.slidingEnabled = true;
+			ett.slidingEnabled = false;
 			ett.bounceEnabled = true;
 			ett.bounceBackHeight = .5;
 			ett.bounceBasePower = 40;
-			ett.slideDecreaseMultiplier = .8;
 		}
 	}
 	

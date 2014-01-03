@@ -8,9 +8,9 @@
 		public function text1() {
 			// constructor code
 		}
-		public function scroll_obj(nx:Number, ny:Number): void {
-			this.x -= nx;
-			this.y -= ny;
+		public function scroll_obj(movex:Number, movey:Number): void {
+			this.x = this.x - movex;
+			this.y = this.y - movey;
 		}
 	}
 	

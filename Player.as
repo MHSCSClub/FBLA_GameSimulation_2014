@@ -29,10 +29,11 @@ package  {
 		
 		public function Player(nx:int = 0, ny:int = 0) {
 			super(nx, ny);
+			this.slidingEnabled = false;
 			
 			//offsets
-			g_testpoint.push(-3.0);
-			g_testpoint.push(8);
+			g_testpoint.push(-7.0);
+			g_testpoint.push(17);
 			for(var q:Number = -this.height / 4; q < this.height / 2; q += this.height / 4){
 				x_testpoint.push(q);
 			}
@@ -79,10 +80,12 @@ package  {
 		public function drawBoundLines(): void {
 			drawLine(stage.stageWidth / 4, 0, stage.stageWidth / 4, stage.stageHeight, _scroll_left_line);
 			drawLine(stage.stageWidth * (3 / 4), 0, stage.stageWidth * (3 / 4), stage.stageHeight, _scroll_right_line);
+			drawLine(0, stage.stageHeight / 4, stage.stageWidth, stage.stageHeight / 4,  _scroll_top_line);
+			drawLine(0, stage.stageHeight * (3 / 4), stage.stageWidth, stage.stageHeight * (3 / 4), _scroll_bottom_line);
 		}
 		
 		private function drawLine(sx:Number, sy:Number, fx:Number, fy:Number, shp:Shape): void {
-			shp.graphics.lineStyle(1, 0xFF0000, 1);
+			shp.graphics.lineStyle(2, 0x0000FF, 2);
 			shp.graphics.moveTo(sx, sy);
 			shp.graphics.lineTo(fx, fy);
 			//stage.addChild(shp);
@@ -91,8 +94,8 @@ package  {
 			var ml:Shape = new Shape();
 			var scroll:Boolean = false;
 			drawLine(this.x, this.y, nx, this.y, ml);
-			drawLine(stage.stageWidth / 4, 0, stage.stageWidth / 4, stage.stageHeight, _scroll_left_line);
-			drawLine(stage.stageWidth * (3 / 4), 0, stage.stageWidth * (3 / 4), stage.stageHeight, _scroll_right_line);
+/*			drawLine(stage.stageWidth / 4, 0, stage.stageWidth / 4, stage.stageHeight, _scroll_left_line);
+			drawLine(stage.stageWidth * (3 / 4), 0, stage.stageWidth * (3 / 4), stage.stageHeight, _scroll_right_line);*/
 			
 			if(nx - this.x > 0){
 				if(_scroll_right_line.hitTestObject(ml)){
@@ -111,31 +114,47 @@ package  {
 			} else{
 				this.x = nx;
 			}
+			ml.graphics.clear();
+/*			_scroll_left_line.graphics.clear();
+			_scroll_right_line.graphics.clear();*/
 		}
-/*		override public function scroll_y(ny:Number): void {
+		override public function scroll_y(ny:Number): void {
 			var ml:Shape = new Shape();
 			var scroll:Boolean = false;
 			drawLine(this.x, this.y + this.height / 2, this.x, ny, ml);
-			drawLine(0, stage.stageHeight / 5, stage.stageWidth, stage.stageHeight / 5,  _scroll_top_line);
-			drawLine(0, stage.stageHeight * (4 / 5), stage.stageWidth, stage.stageHeight * (4 / 5), _scroll_bottom_line);
 			
 			if(ny - this.y > 0){
 				if(_scroll_bottom_line.hitTestObject(ml)){
+					for(var i:int = 0; i < scrollObj.length; ++i){
+							scrollObj[i].scroll_obj(0, ny - this.y);
+					}
 					scroll = true;
 				}
-			} else {
-				if(_scroll_top_line.hitTestObject(ml)){
+			} else if(ny - this.y != 0) {
+				if(_scroll_top_line.hitTestObject(ml)) {
+					for(i = 0; i < scrollObj.length; ++i){
+						scrollObj[i].scroll_obj(0, ny - this.y);
+					}
 					scroll = true;
 				}
 			}
 			
-			if(scroll){
-				for(var i:int = 0; i < envObj.length; ++i){
-					envObj[i].scroll_obj(0, ny - this.y);
+			if(!scroll)
+				this.y = ny;
+			ml.graphics.clear();
+		}
+/*	override public function scroll_g_y(ny:Number): void {
+			var ml:Shape = new Shape();
+			drawLine(this.x, this.y + this.height / 2, this.x, ny, ml);
+			
+			if(_scroll_bottom_line.hitTestObject(ml)){
+				for(var i:int = 0; i < scrollObj.length; ++i){
+						scrollObj[i].scroll_obj(0, ny - (this.y + this.height / 2));
 				}
-			} else {
+			}else {
 				this.y = ny;
 			}
+			ml.graphics.clear();
 		}*/
 	}
 }

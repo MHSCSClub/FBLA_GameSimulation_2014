@@ -1,4 +1,4 @@
-﻿package  {
+﻿package {
 	
 	import API.*;
 	
@@ -9,10 +9,11 @@
 		
 		override public function setVariables(ett:Entity): void {
 			ett.frictionEnabled = false;
-			ett.slidingEnabled = false;
+			ett.slidingEnabled = true;
 			ett.bounceEnabled = true;
 			ett.bounceBackHeight = .5;
 			ett.bounceBasePower = 40;
+			ett.slideDecreaseMultiplier = .8;
 		}
 	}
 	

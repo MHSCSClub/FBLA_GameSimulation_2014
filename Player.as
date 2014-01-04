@@ -5,7 +5,7 @@
 	Frame 2 - ?: Jump
 */
 
-package  {
+package {
 	
 	import flash.display.MovieClip;
 	import flash.events.*;
@@ -16,14 +16,16 @@ package  {
 	public class Player extends Entity{
 		private var _keycode:Array = [];
 		private var _jcount:int = 0;
+		private var _currentJump = jumpunit;
 		private var _scroll_left_line:Shape = new Shape();
 		private var _scroll_right_line:Shape = new Shape();
 		private var _scroll_bottom_line:Shape = new Shape();
 		private var _scroll_top_line:Shape = new Shape();
 		
 		public var moveunit:int = 10;
-		public var jumpunit:int = 40;
-		public var jumplimit:int = 4;
+		public var jumpunit:int = 30;
+		public var jumplimit:int = 5;
+		public var jumpDecreaseMultiplier = .9;
 		
 		public static var scrollObj:Array = [];
 		
@@ -50,12 +52,14 @@ package  {
 			if(_jcount > 1){
 				if(_keycode[Keyboard.UP]){
 					--_jcount;
-					this.movey -= jumpunit;
+					this.movey -= _currentJump;
+					_currentJump *= jumpDecreaseMultiplier;
 				} else {
 					_jcount = 1;
 				}
 			}else if(_jcount == 1){
 				_jcount = 0;
+				_currentJump = jumpunit;
 				this.gravityEnabled = true;
 			}
 			//Right Left movement
@@ -94,8 +98,6 @@ package  {
 			var ml:Shape = new Shape();
 			var scroll:Boolean = false;
 			drawLine(this.x, this.y, nx, this.y, ml);
-/*			drawLine(stage.stageWidth / 4, 0, stage.stageWidth / 4, stage.stageHeight, _scroll_left_line);
-			drawLine(stage.stageWidth * (3 / 4), 0, stage.stageWidth * (3 / 4), stage.stageHeight, _scroll_right_line);*/
 			
 			if(nx - this.x > 0){
 				if(_scroll_right_line.hitTestObject(ml)){
@@ -115,46 +117,6 @@ package  {
 				this.x = nx;
 			}
 			ml.graphics.clear();
-/*			_scroll_left_line.graphics.clear();
-			_scroll_right_line.graphics.clear();*/
 		}
-		override public function scroll_y(ny:Number): void {
-			var ml:Shape = new Shape();
-			var scroll:Boolean = false;
-			drawLine(this.x, this.y + this.height / 2, this.x, ny, ml);
-			
-			if(ny - this.y > 0){
-				if(_scroll_bottom_line.hitTestObject(ml)){
-					for(var i:int = 0; i < scrollObj.length; ++i){
-							scrollObj[i].scroll_obj(0, ny - this.y);
-					}
-					scroll = true;
-				}
-			} else if(ny - this.y != 0) {
-				if(_scroll_top_line.hitTestObject(ml)) {
-					for(i = 0; i < scrollObj.length; ++i){
-						scrollObj[i].scroll_obj(0, ny - this.y);
-					}
-					scroll = true;
-				}
-			}
-			
-			if(!scroll)
-				this.y = ny;
-			ml.graphics.clear();
-		}
-/*	override public function scroll_g_y(ny:Number): void {
-			var ml:Shape = new Shape();
-			drawLine(this.x, this.y + this.height / 2, this.x, ny, ml);
-			
-			if(_scroll_bottom_line.hitTestObject(ml)){
-				for(var i:int = 0; i < scrollObj.length; ++i){
-						scrollObj[i].scroll_obj(0, ny - (this.y + this.height / 2));
-				}
-			}else {
-				this.y = ny;
-			}
-			ml.graphics.clear();
-		}*/
 	}
 }

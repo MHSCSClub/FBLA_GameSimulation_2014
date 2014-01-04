@@ -52,8 +52,8 @@ package API {
 		public static var envObj:Array = [];
 		
 		public function Entity(nx:int = 0, ny:int = 0) {
-			this.x = nx + this.width / 2;
-			this.y = ny + this.height / 2;
+			this.x = nx;
+			this.y = ny;
 		}
 		
 		//Functionality, physics is provided by update
@@ -85,8 +85,11 @@ package API {
 			if(movex != 0)
 				move_collision(this.x + movex);
 			
-			var ny:Number = this.y + movey;
-			scroll_y(ny);
+			if(movey < 0){
+				jump_collision(this.y + movey)
+			}else if(movey > 0) {
+				gravity_collision(this.y + movey);
+			}
 			
 			if(!onGround && this.y < _maxHeightReached)
 				_maxHeightReached = this.y;
@@ -99,7 +102,7 @@ package API {
 					onGround = false;
 				}
 				if(_bounceHeight != 0){
-					ny = this.y - _currentBounce;
+					var ny:Number = this.y - _currentBounce;
 					if(ny >= _bounceHeight){
 						this.y = ny;
 						_currentBounce *= bounceIncreaseMultiplier;
@@ -119,10 +122,12 @@ package API {
 				if(!gravity_collision(ny)){
 					_currentGravity *= gravityIncreaseMultiplier;
 					onGround = false;
+					//trace("air");
 				}else if(!onGround){
 					gravity_collision(ny);
 					_currentGravity = gravityBasePower;
 					onGround = true;
+					//trace("onground");
 				}
 			}
 			
@@ -152,7 +157,7 @@ package API {
 			vl.graphics.clear(); //Comment for debug
 			//If there are no collisions, return
 			if(collidobj.length == 0){
-				scroll_y(ny);
+				this.y = ny;
 				return false;
 			}
 			
@@ -160,18 +165,16 @@ package API {
 			collidobj.sort(Environment.less_y);
 			for(i = 0; i < collidobj.length; ++i){
 				for(p = 0; p <= g_testpoint.length; ++p){
-					for(var q:Number = this.y + this.height / 2; q < ny + this.height / 2; ++q){
+					for(var q:Number = this.y; q < ny + this.height / 2; ++q){
 						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true) && 
 							!collidobj[i].hitTestPoint(this.x + g_testpoint[p], q - 1, true)){
 							
-							//Debugging lines
 /*							dl.graphics.lineStyle(10, 0x00FF00, 10);
-							dl.graphics.moveTo(this.x + g_testpoint[p], q - this.height);
-							dl.graphics.lineTo(this.x + g_testpoint[p], q - this.height);
+							dl.graphics.moveTo(this.x + g_testpoint[p], q - 1);
+							dl.graphics.lineTo(this.x + g_testpoint[p], q);
 							stage.addChild(dl);*/
 							
-							
-							scroll_g_y(q - this.height / 2);
+							this.y = q - this.height / 2;
 							if(environmentSetVariablesEnabled)
 								collidobj[i].setVariables(this);
 							return true;
@@ -179,7 +182,47 @@ package API {
 					}
 				}
 			}
-			scroll_y(ny);
+			this.y = ny;
+			return false;
+		}
+		public function jump_collision(ny:Number): Boolean {
+			var vl:Shape = new Shape();
+			var isCollision:Boolean = false;
+			var collidobj:Array = [];
+			
+			vl.graphics.lineStyle(1, 0xFF0000, 1);
+			for(var i:int = 0; i < envObj.length; ++i){
+				for(var p:int = 0; p < g_testpoint.length; ++p){
+					vl.graphics.moveTo(this.x + g_testpoint[p], this.y - this.height / 2);
+					vl.graphics.lineTo(this.x + g_testpoint[p], ny - this.height / 2);
+					
+					//stage.addChild(vl); //Uncomment for debug
+					
+					if(envObj[i].hitTestObject(vl) && envObj[i] is NoJump){
+						collidobj.push(envObj[i]);
+					}
+				}
+			}
+			vl.graphics.clear(); //Comment for debug
+			//If there are no collisions, return
+			if(collidobj.length == 0){
+				this.y = ny;
+				return false;
+			}
+			var dl:Shape = new Shape();
+			collidobj.sort(Environment.less_y);
+			for(i = 0; i < collidobj.length; ++i){
+				for(p = 0; p <= g_testpoint.length; ++p){
+					for(var q:Number = this.y - this.height / 2; q > ny - this.height / 2; --q){
+						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true)){
+							
+							this.y = q + this.height / 2;
+							return true;
+						}
+					}
+				}
+			}
+			this.y = ny;
 			return false;
 		}
 		public function move_collision(nx:Number) : Boolean {
@@ -241,12 +284,6 @@ package API {
 		}
 		public function scroll_x(nx:Number): void{
 			this.x = nx;
-		}
-		public function scroll_y(ny:Number): void {
-			this.y = ny;
-		}
-		public function scroll_g_y(ny:Number): void {
-			this.y = ny;
 		}
 	}
 }

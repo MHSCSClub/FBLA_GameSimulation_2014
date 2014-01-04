@@ -7,7 +7,11 @@ package API {
 	import flash.display.MovieClip;
 	import API.*;
 	
-	public class Environment extends MovieClip implements Scrollable{
+	public class Environment extends MovieClip{
+		
+		public var jumpThroughEnabled = true;
+		public var moveThroughEnabled = true;
+		public var fallThroughEnabled = false;
 		
 		public function Environment() { }
 		

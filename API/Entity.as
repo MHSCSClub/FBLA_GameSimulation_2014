@@ -149,7 +149,7 @@ package API {
 					
 					//stage.addChild(vl); //Uncomment for debug
 					
-					if(envObj[i].hitTestObject(vl)){
+					if(envObj[i].hitTestObject(vl) && !envObj[i].fallThroughEnabled){
 						collidobj.push(envObj[i]);
 					}
 				}
@@ -198,7 +198,7 @@ package API {
 					
 					//stage.addChild(vl); //Uncomment for debug
 					
-					if(envObj[i].hitTestObject(vl) && envObj[i] is NoJump){
+					if(envObj[i].hitTestObject(vl) && !envObj[i].jumpThroughEnabled){
 						collidobj.push(envObj[i]);
 					}
 				}
@@ -248,7 +248,7 @@ package API {
 					
 					//stage.addChild(hl);
 					
-					if(envObj[i].hitTestObject(hl)){
+					if(envObj[i].hitTestObject(hl) && !envObj[i].moveThroughEnabled){
 						collidobj.push(envObj[i]);
 					}
 				}

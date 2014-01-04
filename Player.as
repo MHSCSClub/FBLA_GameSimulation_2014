@@ -19,15 +19,11 @@ package {
 		private var _currentJump = jumpunit;
 		private var _scroll_left_line:Shape = new Shape();
 		private var _scroll_right_line:Shape = new Shape();
-		private var _scroll_bottom_line:Shape = new Shape();
-		private var _scroll_top_line:Shape = new Shape();
 		
 		public var moveunit:int = 10;
 		public var jumpunit:int = 30;
 		public var jumplimit:int = 5;
 		public var jumpDecreaseMultiplier = .9;
-		
-		public static var scrollObj:Array = [];
 		
 		public function Player(nx:int = 0, ny:int = 0) {
 			super(nx, ny);
@@ -84,8 +80,6 @@ package {
 		public function drawBoundLines(): void {
 			drawLine(stage.stageWidth / 4, 0, stage.stageWidth / 4, stage.stageHeight, _scroll_left_line);
 			drawLine(stage.stageWidth * (3 / 4), 0, stage.stageWidth * (3 / 4), stage.stageHeight, _scroll_right_line);
-			drawLine(0, stage.stageHeight / 4, stage.stageWidth, stage.stageHeight / 4,  _scroll_top_line);
-			drawLine(0, stage.stageHeight * (3 / 4), stage.stageWidth, stage.stageHeight * (3 / 4), _scroll_bottom_line);
 		}
 		
 		private function drawLine(sx:Number, sy:Number, fx:Number, fy:Number, shp:Shape): void {
@@ -110,8 +104,8 @@ package {
 			}
 			
 			if(scroll){
-				for(var i:int = 0; i < scrollObj.length; ++i){
-					scrollObj[i].scroll_obj(nx - this.x, 0);
+				for(var i:int = 0; i < envObj.length; ++i){
+					envObj[i].scroll_obj(nx - this.x, 0);
 				}
 			} else{
 				this.x = nx;

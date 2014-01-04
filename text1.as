@@ -1,16 +1,13 @@
 ﻿package {
 	
-	import flash.display.MovieClip;
 	import API.*
 	
-	public class text1 extends MovieClip implements Scrollable{
+	public class text1 extends Environment{
 		
-		public function text1() {
-			// constructor code
-		}
-		public function scroll_obj(movex:Number, movey:Number): void {
-			this.x = this.x - movex;
-			this.y = this.y - movey;
+		public function text1() { 
+			this.fallThroughEnabled = true;
+			this.moveThroughEnabled = true;
+			this.jumpThroughEnabled = true;
 		}
 	}
 	

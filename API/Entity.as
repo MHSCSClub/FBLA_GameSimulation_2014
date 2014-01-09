@@ -14,8 +14,9 @@ package API {
 	import flash.display.MovieClip;
 	import flash.geom.Point;
 	import flash.display.Shape;
+	import API.*;
 	
-	public class Entity extends MovieClip{
+	public class Entity extends Environment {
 		private var _currentGravity:Number = gravityBasePower;
 		
 		private var _currentBounce:Number = bounceBasePower;
@@ -31,6 +32,8 @@ package API {
 		
 		protected var g_testpoint:Array = [];
 		protected var x_testpoint:Array = [];
+		
+		public var health:int = 1;
 		
 		public var gravityEnabled:Boolean = true;
 		public var gravityBasePower:Number = 8;
@@ -51,13 +54,26 @@ package API {
 		
 		public static var envObj:Array = [];
 		
-		public function Entity(nx:int = 0, ny:int = 0) {
+		public var yLines:Array = [];
+		public var xLines:Array = [];
+		
+		public function Entity(nsig:int, nx:Number = 0, ny:Number = 0) {
+			this.sig = nsig;
 			this.x = nx;
 			this.y = ny;
 		}
 		
+		//public static function 
+		
 		//Functionality, physics is provided by update
 		public function entity_update(): void {
+			for(var i:int = 0; i < g_testpoint.length; ++i) {
+				yLines.push(new Shape());
+			}
+			for(i = 0; i < x_testpoint.length; ++i) {
+				xLines.push(new Shape());
+			}
+			
 			var stage_limit_l:Number = 0 + this.width / 2;
 			var stage_limit_r:Number = this.stage.stageWidth - this.width / 2;
 			
@@ -137,24 +153,22 @@ package API {
 		}
 		
 		public function gravity_collision(ny:Number): Boolean {
-			var vl:Shape = new Shape();
 			var isCollision:Boolean = false;
 			var collidobj:Array = [];
-			
-			vl.graphics.lineStyle(1, 0xFF0000, 1);
+
 			for(var i:int = 0; i < envObj.length; ++i){
 				for(var p:int = 0; p < g_testpoint.length; ++p){
-					vl.graphics.moveTo(this.x + g_testpoint[p], this.y + this.height / 2);
-					vl.graphics.lineTo(this.x + g_testpoint[p], ny + this.height / 2);
+					yLines[p].graphics.clear();
+					yLines[p].graphics.lineStyle(1, 0xFF0000, 1);
+					yLines[p].graphics.moveTo(this.x + g_testpoint[p], this.y + this.height / 2);
+					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny + this.height / 2);
+					//stage.addChild(yLines[p]); //Uncomment for debug
 					
-					//stage.addChild(vl); //Uncomment for debug
-					
-					if(envObj[i].hitTestObject(vl) && !envObj[i].fallThroughEnabled){
+					if(envObj[i].hitTestObject(yLines[p]) && !envObj[i].fallThroughEnabled && envObj[i] != this){
 						collidobj.push(envObj[i]);
 					}
 				}
 			}
-			vl.graphics.clear(); //Comment for debug
 			//If there are no collisions, return
 			if(collidobj.length == 0){
 				this.y = ny;
@@ -165,7 +179,7 @@ package API {
 			collidobj.sort(Environment.less_y);
 			for(i = 0; i < collidobj.length; ++i){
 				for(p = 0; p <= g_testpoint.length; ++p){
-					for(var q:Number = this.y; q < ny + this.height / 2; ++q){
+					for(var q:Number = this.y + this.height / 4; q < ny + this.height / 2; ++q){
 						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true) && 
 							!collidobj[i].hitTestPoint(this.x + g_testpoint[p], q - 1, true)){
 							
@@ -186,24 +200,23 @@ package API {
 			return false;
 		}
 		public function jump_collision(ny:Number): Boolean {
-			var vl:Shape = new Shape();
 			var isCollision:Boolean = false;
 			var collidobj:Array = [];
 			
-			vl.graphics.lineStyle(1, 0xFF0000, 1);
 			for(var i:int = 0; i < envObj.length; ++i){
 				for(var p:int = 0; p < g_testpoint.length; ++p){
-					vl.graphics.moveTo(this.x + g_testpoint[p], this.y - this.height / 2);
-					vl.graphics.lineTo(this.x + g_testpoint[p], ny - this.height / 2);
+					yLines[p].graphics.clear();
+					yLines[p].graphics.lineStyle(1, 0xFF0000, 1);
+					yLines[p].graphics.moveTo(this.x + g_testpoint[p], this.y - this.height / 2);
+					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny - this.height / 2);
 					
 					//stage.addChild(vl); //Uncomment for debug
 					
-					if(envObj[i].hitTestObject(vl) && !envObj[i].jumpThroughEnabled){
+					if(envObj[i].hitTestObject(yLines[p]) && !envObj[i].jumpThroughEnabled && envObj[i] != this){
 						collidobj.push(envObj[i]);
 					}
 				}
 			}
-			vl.graphics.clear(); //Comment for debug
 			//If there are no collisions, return
 			if(collidobj.length == 0){
 				this.y = ny;
@@ -217,6 +230,8 @@ package API {
 						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true)){
 							
 							this.y = q + this.height / 2;
+							if(environmentSetVariablesEnabled)
+								collidobj[i].setVariables(this);
 							return true;
 						}
 					}
@@ -226,7 +241,6 @@ package API {
 			return false;
 		}
 		public function move_collision(nx:Number) : Boolean {
-			var hl:Shape = new Shape;
 			var isCollision:Boolean = false;
 			var collidobj:Array = [];
 			var setPoint:Number = 0;
@@ -240,20 +254,20 @@ package API {
 				inc = -1;
 			}
 			
-			hl.graphics.lineStyle(1, 0xFF0000, 1);
 			for(var i:int = 0; i < envObj.length; ++i){
 				for(var p:int = 0; p < x_testpoint.length; ++p){
-					hl.graphics.moveTo(setPoint, this.y + x_testpoint[p]);
-					hl.graphics.lineTo(nx + setPoint - this.x, this.y + x_testpoint[p]);
+					xLines[p].graphics.clear();
+					xLines[p].graphics.lineStyle(1, 0xFF0000, 1);
+					xLines[p].graphics.moveTo(setPoint, this.y + x_testpoint[p]);
+					xLines[p].graphics.lineTo(nx + setPoint - this.x, this.y + x_testpoint[p]);
 					
 					//stage.addChild(hl);
 					
-					if(envObj[i].hitTestObject(hl) && !envObj[i].moveThroughEnabled){
+					if(envObj[i].hitTestObject(xLines[p]) && !envObj[i].moveThroughEnabled && envObj[i] != this){
 						collidobj.push(envObj[i]);
 					}
 				}
 			}
-			hl.graphics.clear();
 			if(collidobj.length == 0){
 				scroll_x(nx);
 				return false;
@@ -274,6 +288,8 @@ package API {
 							
 							stage.addChild(dl);
 							scroll_x(p - (setPoint - this.x));
+							if(environmentSetVariablesEnabled)
+								collidobj[i].setVariables(this);
 							return true;
 						}
 					}

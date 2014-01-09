@@ -9,11 +9,27 @@ package API {
 	
 	public class Environment extends MovieClip{
 		
+		private var _sig:int = -1;
+		
 		public var jumpThroughEnabled = true;
 		public var moveThroughEnabled = true;
 		public var fallThroughEnabled = false;
 		
 		public function Environment() { }
+		public function set sig(nsig:int) {
+			if(_sig == -1) {
+				_sig = nsig;
+			} else {
+				throw new Error("Sig already set");
+			}
+		}
+		public function get sig(): int {
+			if(_sig != -1) {
+				return _sig;
+			} else {
+				throw new Error("Sig not set");
+			}
+		}
 		
 		public static function less_y(e1:Environment, e2:Environment): int {
 			if(e1.y < e2.y)

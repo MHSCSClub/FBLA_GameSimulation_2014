@@ -20,20 +20,34 @@ package {
 		private var _scroll_left_line:Shape = new Shape();
 		private var _scroll_right_line:Shape = new Shape();
 		
+		private static var _p_sig:int = -1;
+		
 		public var moveunit:int = 10;
 		public var jumpunit:int = 30;
 		public var jumplimit:int = 5;
 		public var jumpDecreaseMultiplier = .9;
 		
-		public function Player(nx:int = 0, ny:int = 0) {
-			super(nx, ny);
-			this.slidingEnabled = false;
+		public function Player(nsig:int, nx:Number = 0, ny:Number = 0) {
+			super(nsig, nx, ny);
 			
 			//offsets
 			g_testpoint.push(-7.0);
 			g_testpoint.push(17);
 			for(var q:Number = -this.height / 4; q < this.height / 2; q += this.height / 4){
 				x_testpoint.push(q);
+			}
+			if(_p_sig == -1) {
+				_p_sig = this.sig;
+			} else {
+				throw new Error("Multiple players on screen");
+			}
+		}
+		
+		public static function get p_sig(): int {
+			if(_p_sig == -1){
+				throw new Error("Accessed player before initialization");
+			} else {
+				return _p_sig;
 			}
 		}
 		
@@ -69,6 +83,9 @@ package {
 		public function bindEnterFrame(evt:Event):void {
 			keymove();
 			super.entity_update();
+			if(this.health <= 0){
+				dispatchEvent(new EntityEvent(EntityEvent.DEATH + this.sig, this.sig));
+			}
 		}
 		public function bindKeyDown(kevt:KeyboardEvent): void {
 			_keycode[kevt.keyCode] = true;
@@ -94,11 +111,11 @@ package {
 			drawLine(this.x, this.y, nx, this.y, ml);
 			
 			if(nx - this.x > 0){
-				if(_scroll_right_line.hitTestObject(ml)){
+				if(_scroll_right_line.hitTestObject(this.xLines[0])){
 					scroll = true;
 				}
 			} else {
-				if(_scroll_left_line.hitTestObject(ml)){
+				if(_scroll_left_line.hitTestObject(this.xLines[0])){
 					scroll = true;
 				}
 			}
@@ -110,7 +127,7 @@ package {
 			} else{
 				this.x = nx;
 			}
-			ml.graphics.clear();
 		}
+		override public function scroll_obj(movex:Number, movey:Number): void { }
 	}
 }

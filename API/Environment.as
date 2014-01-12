@@ -52,7 +52,13 @@ package API {
 		}
 		
 		//Virtual
-		public function setVariables(ett:Entity): void {
+		public function g_setVariables(ett:Entity): void {
+			
+		}
+		public function j_setVariables(ett:Entity): void {
+			
+		}
+		public function x_setVariables(ett:Entity): void {
 			
 		}
 

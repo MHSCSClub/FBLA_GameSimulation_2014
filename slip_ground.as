@@ -6,7 +6,7 @@
 		
 		public function slip_ground() { }
 		
-		override public function setVariables(ett:Entity): void {
+		override public function g_setVariables(ett:Entity): void {
 			ett.frictionEnabled = false;
 			ett.slidingEnabled = true;
 			ett.bounceEnabled = false;

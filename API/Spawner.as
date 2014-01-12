@@ -18,6 +18,12 @@ package API {
 		public function bindEnterFrame(evt:Event): void {
 			
 		}
+		public function construct(): void {
+			this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
+		}
+		public function destruct(): void {
+			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
+		}
 	}
 	
 }

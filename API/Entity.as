@@ -36,23 +36,32 @@ package API {
 		public var health:int = 1;
 		
 		public var gravityEnabled:Boolean = true;
-		public var gravityBasePower:Number = 8;
-		public var gravityIncreaseMultiplier:Number = 1.4;
+		public var gravityBasePower:Number = gravityBasePower_default;
+		public var gravityIncreaseMultiplier:Number = gravityIncreaseMultiplier_default;
 		
 		public var bounceEnabled:Boolean = true;
-		public var bounceBackHeight:Number = 0.5;
-		public var bounceBasePower:Number = 20;
-		public var bounceIncreaseMultiplier:Number = 1;
+		public var bounceBackHeight:Number = bounceBackHeight_default;
+		public var bounceBasePower:Number = bounceBasePower_default;
+		public var bounceIncreaseMultiplier:Number = bounceIncreaseMultiplier_default;
 		
 		public var frictionEnabled:Boolean = true;
-		public var frictionMultiplier:Number = 0.2;
+		public var frictionMultiplier:Number = frictionMultiplier_default;
 		
 		public var slidingEnabled:Boolean = true;
-		public var slideDecreaseMultiplier = .9;
-		
-		public var environmentSetVariablesEnabled:Boolean = true;
+		public var slideDecreaseMultiplier = slideDecreaseMultiplier_default;
 		
 		public static var envObj:Array = [];
+		
+		public static const gravityBasePower_default:Number = 8;
+		public static const gravityIncreaseMultiplier_default:Number = 1.4;
+		
+		public static const bounceBackHeight_default:Number = 0.5;
+		public static const bounceBasePower_default:Number = 20;
+		public static const bounceIncreaseMultiplier_default:Number = 1;
+		
+		public static const frictionMultiplier_default:Number = 0.2;
+		
+		public static const slideDecreaseMultiplier_default:Number = .9;
 		
 		public var yLines:Array = [];
 		public var xLines:Array = [];
@@ -63,7 +72,15 @@ package API {
 			this.y = ny;
 		}
 		
-		//public static function 
+		public function reset_all_default(): void {
+			gravityBasePower = gravityBasePower_default;
+			gravityIncreaseMultiplier = gravityIncreaseMultiplier_default;
+			bounceBackHeight = bounceBackHeight_default;
+			bounceBasePower = bounceBasePower_default;
+			bounceIncreaseMultiplier = bounceIncreaseMultiplier_default;
+			frictionMultiplier = frictionMultiplier_default;
+			slideDecreaseMultiplier = slideDecreaseMultiplier_default;
+		}
 		
 		//Functionality, physics is provided by update
 		public function entity_update(): void {
@@ -138,12 +155,10 @@ package API {
 				if(!gravity_collision(ny)){
 					_currentGravity *= gravityIncreaseMultiplier;
 					onGround = false;
-					//trace("air");
 				}else if(!onGround){
 					gravity_collision(ny);
 					_currentGravity = gravityBasePower;
 					onGround = true;
-					//trace("onground");
 				}
 			}
 			
@@ -164,7 +179,7 @@ package API {
 					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny + this.height / 2);
 					//stage.addChild(yLines[p]); //Uncomment for debug
 					
-					if(envObj[i].hitTestObject(yLines[p]) && !envObj[i].fallThroughEnabled && envObj[i] != this){
+					if(g_collid_hit_test(envObj[i], yLines[p]) && !envObj[i].fallThroughEnabled && envObj[i] != this){
 						collidobj.push(envObj[i]);
 					}
 				}
@@ -188,9 +203,8 @@ package API {
 							dl.graphics.lineTo(this.x + g_testpoint[p], q);
 							stage.addChild(dl);*/
 							
-							this.y = q - this.height / 2;
-							if(environmentSetVariablesEnabled)
-								collidobj[i].setVariables(this);
+							this.y = Math.ceil(q - this.height / 2);
+							g_env_set_var(collidobj[i]);
 							return true;
 						}
 					}
@@ -199,6 +213,13 @@ package API {
 			this.y = ny;
 			return false;
 		}
+		public function g_collid_hit_test(c_obj:Environment, ln:Shape): Boolean {
+			return c_obj.hitTestObject(ln);
+		}
+		public function g_env_set_var(c_obj:Environment): void {
+			c_obj.g_setVariables(this);
+		}
+		//public function g_
 		public function jump_collision(ny:Number): Boolean {
 			var isCollision:Boolean = false;
 			var collidobj:Array = [];
@@ -212,7 +233,7 @@ package API {
 					
 					//stage.addChild(vl); //Uncomment for debug
 					
-					if(envObj[i].hitTestObject(yLines[p]) && !envObj[i].jumpThroughEnabled && envObj[i] != this){
+					if(j_collid_hit_test(envObj[i], yLines[p]) && !envObj[i].jumpThroughEnabled && envObj[i] != this){
 						collidobj.push(envObj[i]);
 					}
 				}
@@ -230,8 +251,7 @@ package API {
 						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true)){
 							
 							this.y = q + this.height / 2;
-							if(environmentSetVariablesEnabled)
-								collidobj[i].setVariables(this);
+							j_env_set_var(collidobj[i]);
 							return true;
 						}
 					}
@@ -239,6 +259,12 @@ package API {
 			}
 			this.y = ny;
 			return false;
+		}
+		public function j_collid_hit_test(c_obj:Environment, ln:Shape): Boolean {
+			return c_obj.hitTestObject(ln);
+		}
+		public function j_env_set_var(c_obj:Environment) {
+			c_obj.j_setVariables(this);
 		}
 		public function move_collision(nx:Number) : Boolean {
 			var isCollision:Boolean = false;
@@ -263,7 +289,7 @@ package API {
 					
 					//stage.addChild(hl);
 					
-					if(envObj[i].hitTestObject(xLines[p]) && !envObj[i].moveThroughEnabled && envObj[i] != this){
+					if(x_collid_hit_test(envObj[i], xLines[p]) && !envObj[i].moveThroughEnabled && envObj[i] != this){
 						collidobj.push(envObj[i]);
 					}
 				}
@@ -286,10 +312,9 @@ package API {
 							dl.graphics.moveTo(setPoint, this.y + x_testpoint[q]);
 							dl.graphics.lineTo(p, this.y + x_testpoint[q]);*/
 							
-							stage.addChild(dl);
+							//stage.addChild(dl);
 							scroll_x(p - (setPoint - this.x));
-							if(environmentSetVariablesEnabled)
-								collidobj[i].setVariables(this);
+							x_env_set_var(collidobj[i]);
 							return true;
 						}
 					}
@@ -297,6 +322,12 @@ package API {
 			}
 			scroll_x(nx);
 			return false;
+		}
+		public function x_collid_hit_test(c_obj:Environment, ln:Shape): Boolean {
+			return c_obj.hitTestObject(ln);
+		}
+		public function x_env_set_var(c_obj:Environment) {
+			c_obj.x_setVariables(this);
 		}
 		public function scroll_x(nx:Number): void{
 			this.x = nx;

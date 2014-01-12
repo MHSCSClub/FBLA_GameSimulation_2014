@@ -51,6 +51,10 @@ package {
 			}
 		}
 		
+		public function destruct(): void {
+			_p_sig = -1;
+		}
+		
 		//Responsible for player move
 		private function keymove():void {
 			//Jump

@@ -18,9 +18,7 @@
 				left_line.graphics.lineStyle(1, 0xFF0000, 1);
 				left_line.graphics.moveTo(this.x, this.y);
 				left_line.graphics.lineTo(this.x, stage.stageWidth);
-				if(Entity.envObj[Player.p_sig].xLines[0] == null) {
-					return;
-				} else if(left_line.hitTestObject(Entity.envObj[Player.p_sig].xLines[0])){
+				if(left_line.hitTestObject(Entity.envObj[Player.p_sig].xLines[0])){
 					spawn();
 				}
 			}
@@ -37,9 +35,11 @@
 			this.visible = false;
 		}
 		public function despawn(eevt:EntityEvent): void {
-			spike.removeEventListener(Event.ENTER_FRAME, spike.bindEnterFrame);
-			stage.removeEventListener(EntityEvent.DEATH, despawn, true);
-			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
+			if(_spawn) {
+				spike.removeEventListener(Event.ENTER_FRAME, spike.bindEnterFrame);
+				stage.removeEventListener(EntityEvent.DEATH + this._obj_sig, despawn, true);
+				this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
+			}
 		}
 		override public function destruct(): void {
 			if(_spawn){

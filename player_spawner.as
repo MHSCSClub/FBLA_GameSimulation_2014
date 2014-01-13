@@ -4,7 +4,6 @@
 	import flash.events.*;
 	
 	public class player_spawner extends Spawner{
-		
 		public static var playerConstructed:Boolean = false;
 		public function player_spawner() { }
 		
@@ -26,14 +25,17 @@
 			playerConstructed = true;
 		}
 		public function despawn(eevt:EntityEvent): void {
-			Entity.envObj[this._obj_sig].destruct();
-			stage.removeChild(Entity.envObj[this._obj_sig]);
-			Entity.envObj[this._obj_sig].removeEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, Entity.envObj[this._obj_sig].bindKeyDown);
-			stage.removeEventListener(KeyboardEvent.KEY_UP, Entity.envObj[this._obj_sig].bindKeyUp);
-			Entity.envObj[this._obj_sig].removeEventListener(EntityEvent.DEATH + this._obj_sig, despawn);
-			dispatchEvent(new Event("PLAYER_DEATH"));
-			playerConstructed = false;
+			if(playerConstructed) {
+				Entity.envObj[this._obj_sig].destruct();
+				stage.removeChild(Entity.envObj[this._obj_sig]);
+				Entity.envObj[this._obj_sig].removeEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
+				stage.removeEventListener(EntityEvent.DEATH + this._obj_sig, despawn, true);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, Entity.envObj[this._obj_sig].bindKeyDown);
+				stage.removeEventListener(KeyboardEvent.KEY_UP, Entity.envObj[this._obj_sig].bindKeyUp);
+				Entity.envObj[this._obj_sig].removeEventListener(EntityEvent.DEATH + this._obj_sig, despawn);
+				playerConstructed = false;
+				dispatchEvent(new Event("PLAYER_DEATH"));
+			}
 		}
 	}
 	

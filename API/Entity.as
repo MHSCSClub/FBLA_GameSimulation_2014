@@ -91,9 +91,6 @@ package API {
 				xLines.push(new Shape());
 			}
 			
-			var stage_limit_l:Number = 0 + this.width / 2;
-			var stage_limit_r:Number = this.stage.stageWidth - this.width / 2;
-			
 			//Friction
 			if(frictionEnabled && onGround)
 				movex *= frictionMultiplier;

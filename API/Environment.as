@@ -14,6 +14,7 @@ package API {
 		public var jumpThroughEnabled = true;
 		public var moveThroughEnabled = true;
 		public var fallThroughEnabled = false;
+		public var eventFrameBind = false;
 		
 		public function Environment() { }
 		public function set sig(nsig:int) {

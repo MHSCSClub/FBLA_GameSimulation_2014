@@ -7,6 +7,7 @@
 		private var _sig;
 		
 		public static const DEATH:String = "entityDeath";
+		public static const HITSENSOR:String = "hitSensor";
 
 		public function EntityEvent(type:String, sig, bubbles:Boolean=false, cancelable:Boolean=true) {
 			super(type, bubbles, cancelable);

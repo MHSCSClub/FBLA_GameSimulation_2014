@@ -24,6 +24,16 @@
 			np.drawBoundLines();
 			playerConstructed = true;
 		}
+		override public function pause(evt:Event): void {
+			if(playerConstructed) {
+				Entity.envObj[this._obj_sig].removeEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
+			}
+		}
+		override public function unpause(evt:Event): void {
+			if(playerConstructed) {
+				Entity.envObj[this._obj_sig].addEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
+			}
+		}
 		public function despawn(eevt:EntityEvent): void {
 			if(playerConstructed) {
 				Entity.envObj[this._obj_sig].destruct();
@@ -36,6 +46,20 @@
 				playerConstructed = false;
 				dispatchEvent(new Event("PLAYER_DEATH"));
 			}
+		}
+		override public function destruct(): void {
+			if(playerConstructed){
+				Entity.envObj[this._obj_sig].destruct();
+				stage.removeChild(Entity.envObj[this._obj_sig]);
+				Entity.envObj[this._obj_sig].removeEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
+				stage.removeEventListener(EntityEvent.DEATH + this._obj_sig, despawn, true);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, Entity.envObj[this._obj_sig].bindKeyDown);
+				stage.removeEventListener(KeyboardEvent.KEY_UP, Entity.envObj[this._obj_sig].bindKeyUp);
+				Entity.envObj[this._obj_sig].removeEventListener(EntityEvent.DEATH + this._obj_sig, despawn);
+				playerConstructed = false;
+				playerConstructed = false;
+			}
+			super.destruct();
 		}
 	}
 	

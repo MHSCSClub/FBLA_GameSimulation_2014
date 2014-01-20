@@ -1,7 +1,7 @@
 ﻿/*
 	Entity class
 	An entity is anything that is affected by gravity/physics
-	THIS CLASS SHOULD NOT BE CONSTRUCTED DIRECTLY
+	THIS CLASS SHOULD NOT BE CONSTRUCTED DIRECTLY 
 	Use this class ohly through inheritance
 	List of physics:
 	Gravity
@@ -112,8 +112,7 @@ package API {
 				_currentSlide = 0;
 			}
 			
-			if(movex != 0)
-				move_collision(this.x + movex);
+			move_collision(this.x + movex);
 			
 			if(movey < 0){
 				jump_collision(this.y + movey)
@@ -174,7 +173,7 @@ package API {
 					yLines[p].graphics.lineStyle(1, 0xFF0000, 1);
 					yLines[p].graphics.moveTo(this.x + g_testpoint[p], this.y + this.height / 2);
 					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny + this.height / 2);
-					//stage.addChild(yLines[p]); //Uncomment for debug
+					//stage.addChild(yLines[p]);
 					
 					if(g_collid_hit_test(envObj[i], yLines[p]) && !envObj[i].fallThroughEnabled && envObj[i] != this){
 						collidobj.push(envObj[i]);
@@ -216,7 +215,6 @@ package API {
 		public function g_env_set_var(c_obj:Environment): void {
 			c_obj.g_setVariables(this);
 		}
-		//public function g_
 		public function jump_collision(ny:Number): Boolean {
 			var isCollision:Boolean = false;
 			var collidobj:Array = [];
@@ -227,6 +225,7 @@ package API {
 					yLines[p].graphics.lineStyle(1, 0xFF0000, 1);
 					yLines[p].graphics.moveTo(this.x + g_testpoint[p], this.y - this.height / 2);
 					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny - this.height / 2);
+					//stage.addChild(yLines[p]);
 					
 					//stage.addChild(vl); //Uncomment for debug
 					
@@ -268,6 +267,7 @@ package API {
 			var collidobj:Array = [];
 			var setPoint:Number = 0;
 			var inc:int = 0;
+			var tpoint = this.x;
 			
 			if(nx - this.x > 0){
 				setPoint = this.x + this.width / 2; //moving to the right
@@ -282,11 +282,9 @@ package API {
 					xLines[p].graphics.clear();
 					xLines[p].graphics.lineStyle(1, 0xFF0000, 1);
 					xLines[p].graphics.moveTo(setPoint, this.y + x_testpoint[p]);
-					xLines[p].graphics.lineTo(nx + setPoint - this.x, this.y + x_testpoint[p]);
+					xLines[p].graphics.lineTo(nx + setPoint - tpoint, this.y + x_testpoint[p]);
 					
-					//stage.addChild(hl);
-					
-					if(x_collid_hit_test(envObj[i], xLines[p]) && !envObj[i].moveThroughEnabled && envObj[i] != this){
+					if(x_collid_hit_test(envObj[i], xLines[p]) && envObj[i] != this){
 						collidobj.push(envObj[i]);
 					}
 				}
@@ -310,7 +308,10 @@ package API {
 							dl.graphics.lineTo(p, this.y + x_testpoint[q]);*/
 							
 							//stage.addChild(dl);
-							scroll_x(p - (setPoint - this.x));
+							if(!collidobj[i].moveThroughEnabled)
+								scroll_x(p - (setPoint - this.x));
+							else
+								scroll_x(nx);
 							x_env_set_var(collidobj[i]);
 							return true;
 						}

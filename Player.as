@@ -22,6 +22,10 @@ package {
 		
 		private static var _p_sig:int = -1;
 		
+		public static var current_level = 3;
+		
+		public var people_skill_count = 0;
+		
 		public var moveunit:int = 10;
 		public var jumpunit:int = 30;
 		public var jumplimit:int = 5;
@@ -41,6 +45,7 @@ package {
 			} else {
 				throw new Error("Multiple players on screen");
 			}
+			this.gotoAndPlay(1);
 		}
 		
 		public static function get p_sig(): int {
@@ -62,6 +67,7 @@ package {
 				_jcount = jumplimit + 1;
 				this.onGround = false;
 				this.gravityEnabled = false;
+				this.gotoAndPlay(2);
 			}
 			if(_jcount > 1){
 				if(_keycode[Keyboard.UP]){
@@ -78,24 +84,28 @@ package {
 			}
 			//Right Left movement
 			if(_keycode[Keyboard.RIGHT]){
-				this.movex += moveunit; 
+				this.movex += moveunit;
+				this.gotoAndPlay(8);
 			}
 			if(_keycode[Keyboard.LEFT]) {
 				this.movex -= moveunit;
+				this.gotoAndPlay(8);
 			}
 		}
 		public function bindEnterFrame(evt:Event):void {
-			keymove();
-			super.entity_update();
 			if(this.health <= 0){
 				dispatchEvent(new EntityEvent(EntityEvent.DEATH + this.sig, this.sig));
+				return;
 			}
+			keymove();
+			super.entity_update();
 		}
 		public function bindKeyDown(kevt:KeyboardEvent): void {
 			_keycode[kevt.keyCode] = true;
 		}
 		public function bindKeyUp(kevt:KeyboardEvent): void {
 			_keycode[kevt.keyCode] = false;
+			this.gotoAndPlay(1);
 		}
 		
 		public function drawBoundLines(): void {

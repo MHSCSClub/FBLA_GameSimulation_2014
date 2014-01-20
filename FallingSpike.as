@@ -26,8 +26,7 @@
 			if(c_obj is Entity) {
 				var t = c_obj;
 				t.health -= 5;
-				return;
-			}
+			} 
 			dispatchEvent(new EntityEvent(EntityEvent.DEATH + this.sig, this.sig));
 		}
 		override public function j_setVariables(ett:Entity): void {

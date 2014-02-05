@@ -13,8 +13,8 @@
 			this.bounceBasePower = 30;
 			this.bounceBackHeight = .9;
 		}
-		public function bindEnterFrame(evt:Event){
-			this.entity_update();
+		override public function bindEnterFrame(evt:Event): void {
+			super.entity_update();
 		}
 	}
 }

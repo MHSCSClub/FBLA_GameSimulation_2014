@@ -7,7 +7,6 @@
 	public class spike_spawner extends Spawner {
 		
 		private var spike:FallingSpike;
-		private var _spawn:Boolean = false;
 		
 		public function spike_spawner() {
 			this.visible = true;
@@ -23,42 +22,14 @@
 				}
 			}
 		}
-		public function spawn(): void {
-			_spawn = true;
-			spike = new FallingSpike(Entity.envObj.length, this.x, this.y);
-			this._obj_sig = Entity.envObj.length;
-			stage.addChild(spike);
-			Entity.envObj.push(spike);
-			spike.addEventListener(Event.ENTER_FRAME, spike.bindEnterFrame);
-			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
-			stage.addEventListener(EntityEvent.DEATH + this._obj_sig, despawn, true);
-			this.visible = false;
-		}
-		public function despawn(eevt:EntityEvent): void {
-			if(_spawn) {
-				spike.removeEventListener(Event.ENTER_FRAME, spike.bindEnterFrame);
-				stage.removeEventListener(EntityEvent.DEATH + this._obj_sig, despawn, true);
-				this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
+		override public function spawn(): void {
+			if(!_spawn){
+				super.spawn();
+				this.visible = false;
 			}
 		}
-		override public function pause(evt:Event): void {
-			if(_spawn) {
-				spike.removeEventListener(Event.ENTER_FRAME, spike.bindEnterFrame);
-			}
-			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
-		}
-		override public function unpause(evt:Event): void {
-			if(_spawn) {
-				spike.addEventListener(Event.ENTER_FRAME, spike.bindEnterFrame);
-			}
-			this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
-		}
-		override public function destruct(): void {
-			if(_spawn){
-				stage.removeChild(spike);
-				_spawn = false;
-			}
-			super.destruct();
+		override public function create_obj(): Entity {
+			return new FallingSpike(Entity.envObj.length, this.x, this.y);
 		}
 	}
 }

@@ -14,6 +14,7 @@ package API {
 	import flash.display.MovieClip;
 	import flash.geom.Point;
 	import flash.display.Shape;
+	import flash.events.Event;
 	import API.*;
 	
 	public class Entity extends Environment {
@@ -81,6 +82,7 @@ package API {
 			frictionMultiplier = frictionMultiplier_default;
 			slideDecreaseMultiplier = slideDecreaseMultiplier_default;
 		}
+		public function bindEnterFrame(evt:Event): void { }
 		
 		//Functionality, physics is provided by update
 		public function entity_update(): void {
@@ -308,12 +310,11 @@ package API {
 							dl.graphics.lineTo(p, this.y + x_testpoint[q]);*/
 							
 							//stage.addChild(dl);
-							if(!collidobj[i].moveThroughEnabled)
-								scroll_x(p - (setPoint - this.x));
-							else
-								scroll_x(nx);
 							x_env_set_var(collidobj[i]);
-							return true;
+							if(!collidobj[i].moveThroughEnabled){
+								scroll_x(p - (setPoint - this.x));
+								return true;
+							}
 						}
 					}
 				}

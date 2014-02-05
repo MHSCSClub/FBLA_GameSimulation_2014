@@ -13,8 +13,8 @@
 			this.jumpThroughEnabled = false;
 			this.bounceEnabled = false;
 		}
-		public function bindEnterFrame(evt:Event): void {
-			this.entity_update();
+		override public function bindEnterFrame(evt:Event): void {
+			super.entity_update();
 		}
 		override public function g_setVariables(ett:Entity): void {
 			ett.frictionEnabled = false;

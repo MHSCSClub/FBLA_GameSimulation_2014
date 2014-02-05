@@ -7,8 +7,12 @@
 
 		public function nextlevel_sensor() { }
 		
-		override public function create_event(): void {
-			dispatchEvent(new Event("NEXT_LEVEL"));
+		override public function create_event(ett:Entity): void {
+			if(Player.leadership_skill_count != 1)
+				return;
+			if(ett is Player){
+				dispatchEvent(new Event("NEXT_LEVEL"));
+			}
 		}
 		
 	}

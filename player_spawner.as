@@ -8,11 +8,11 @@
 		public function player_spawner() { }
 		
 		override public function bindEnterFrame(evt:Event): void {
-			create();
+			spawn();
 			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
 		}
 		
-		public function create(): void {
+		override public function spawn(): void {
 			var np:Player = new Player(Entity.envObj.length, this.x, this.y);
 			this._obj_sig = Entity.envObj.length;
 			stage.addChild(np);
@@ -27,14 +27,18 @@
 		override public function pause(evt:Event): void {
 			if(playerConstructed) {
 				Entity.envObj[this._obj_sig].removeEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, Entity.envObj[this._obj_sig].bindKeyDown);
+				stage.removeEventListener(KeyboardEvent.KEY_UP, Entity.envObj[this._obj_sig].bindKeyUp);
 			}
 		}
 		override public function unpause(evt:Event): void {
 			if(playerConstructed) {
 				Entity.envObj[this._obj_sig].addEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, Entity.envObj[this._obj_sig].bindKeyDown);
+				stage.addEventListener(KeyboardEvent.KEY_UP, Entity.envObj[this._obj_sig].bindKeyUp);
 			}
 		}
-		public function despawn(eevt:EntityEvent): void {
+		override public function despawn(evt:Event): void {
 			if(playerConstructed) {
 				Entity.envObj[this._obj_sig].destruct();
 				stage.removeChild(Entity.envObj[this._obj_sig]);

@@ -7,7 +7,6 @@
 
 package {
 	
-	import flash.display.MovieClip;
 	import flash.events.*;
 	import flash.ui.Keyboard;
 	import API.*;
@@ -22,9 +21,13 @@ package {
 		
 		private static var _p_sig:int = -1;
 		
-		public static var current_level = 3;
+		public static var current_level:int = 3;
 		
-		public var people_skill_count = 0;
+		public static var people_skill_count:int = 0;
+		public static var leadership_skill_count:int = 0;
+		public static var negotiation_skill_count:int = 0;
+		
+		public static var possess_obj:Boolean = false;
 		
 		public var moveunit:int = 10;
 		public var jumpunit:int = 30;
@@ -34,6 +37,8 @@ package {
 		public function Player(nsig:int, nx:Number = 0, ny:Number = 0) {
 			super(nsig, nx, ny);
 			
+			this.health = 1;
+			this.fallThroughEnabled = true;
 			//offsets
 			g_testpoint.push(-7.0);
 			g_testpoint.push(17);
@@ -92,7 +97,7 @@ package {
 				this.gotoAndPlay(8);
 			}
 		}
-		public function bindEnterFrame(evt:Event):void {
+		override public function bindEnterFrame(evt:Event):void {
 			if(this.health <= 0){
 				dispatchEvent(new EntityEvent(EntityEvent.DEATH + this.sig, this.sig));
 				return;
@@ -137,6 +142,7 @@ package {
 			if(scroll){
 				for(var i:int = 0; i < envObj.length; ++i){
 					envObj[i].scroll_obj(nx - this.x, 0);
+					//this.x = nx;
 				}
 			} else{
 				this.x = nx;

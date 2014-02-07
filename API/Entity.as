@@ -52,6 +52,7 @@ package API {
 		public var slideDecreaseMultiplier = slideDecreaseMultiplier_default;
 		
 		public static var envObj:Array = [];
+		public static var bck;
 		
 		public static const gravityBasePower_default:Number = 8;
 		public static const gravityIncreaseMultiplier_default:Number = 1.4;

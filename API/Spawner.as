@@ -5,6 +5,7 @@ package API {
 	
 	import API.*;
 	import flash.events.Event;
+	import flash.display.MovieClip;
 	
 	public class Spawner extends Environment{
 		protected var _obj_sig:int;
@@ -28,7 +29,7 @@ package API {
 				_spawn = true;
 				_obj = create_obj();
 				this._obj_sig = Entity.envObj.length;
-				stage.addChild(_obj);
+				(root as MovieClip).addChildAt(_obj, 2);
 				_onScreen = true;
 				Entity.envObj.push(_obj);
 				_obj.addEventListener(Event.ENTER_FRAME, _obj.bindEnterFrame);
@@ -71,7 +72,7 @@ package API {
 				_spawn = false;
 			}
 			if(_onScreen) {
-				stage.removeChild(_obj);
+				(root as MovieClip).removeChild(_obj);
 				_onScreen = false;
 			}
 			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);

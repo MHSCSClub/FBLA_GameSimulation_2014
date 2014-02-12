@@ -2,6 +2,7 @@
 	
 	import API.*;
 	import flash.events.*;
+	import flash.display.MovieClip;
 	
 	public class follower_spawner extends Spawner{
 
@@ -28,7 +29,7 @@
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, _obj.bindKeyDown);
 				stage.removeEventListener(KeyboardEvent.KEY_UP, _obj.bindKeyUp);
 				stage.removeEventListener(EntityEvent.HITSENSOR + "REACHEDDEST", _obj.bindReachedDest, true);
-				stage.removeChild(_obj);
+				(root as MovieClip).removeChild(_obj);
 				_onScreen = false;
 			}
 		}

@@ -37,12 +37,11 @@ package {
 		public function Player(nsig:int, nx:Number = 0, ny:Number = 0) {
 			super(nsig, nx, ny);
 			
-			this.health = 1;
-			this.fallThroughEnabled = true;
+			this.fallThroughEnabled = false;
 			//offsets
 			g_testpoint.push(-7.0);
 			g_testpoint.push(17);
-			for(var q:Number = -this.height / 4; q < this.height / 2; q += this.height / 4){
+			for(var q:Number = -this.height / 4; q < 1; q += this.height / 4){
 				x_testpoint.push(q);
 			}
 			if(_p_sig == -1) {
@@ -63,6 +62,10 @@ package {
 		
 		public function destruct(): void {
 			_p_sig = -1;
+			people_skill_count = 0;
+			leadership_skill_count = 0;
+			negotiation_skill_count = 0;
+			possess_obj = false;
 		}
 		
 		//Responsible for player move
@@ -72,7 +75,7 @@ package {
 				_jcount = jumplimit + 1;
 				this.onGround = false;
 				this.gravityEnabled = false;
-				this.gotoAndPlay(2);
+				//this.gotoAndPlay(2);
 			}
 			if(_jcount > 1){
 				if(_keycode[Keyboard.UP]){
@@ -90,11 +93,11 @@ package {
 			//Right Left movement
 			if(_keycode[Keyboard.RIGHT]){
 				this.movex += moveunit;
-				this.gotoAndPlay(8);
+				//this.gotoAndPlay(8);
 			}
 			if(_keycode[Keyboard.LEFT]) {
 				this.movex -= moveunit;
-				this.gotoAndPlay(8);
+				//this.gotoAndPlay(8);
 			}
 		}
 		override public function bindEnterFrame(evt:Event):void {
@@ -110,7 +113,7 @@ package {
 		}
 		public function bindKeyUp(kevt:KeyboardEvent): void {
 			_keycode[kevt.keyCode] = false;
-			this.gotoAndPlay(1);
+			//this.gotoAndPlay(1);
 		}
 		
 		public function drawBoundLines(): void {

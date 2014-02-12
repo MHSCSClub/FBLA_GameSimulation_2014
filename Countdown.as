@@ -15,9 +15,19 @@
 		}
 		public function construct(): void {
 			this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
+			stage.addEventListener("PAUSE", this.pause, true);
+			stage.addEventListener("UNPAUSE", this.unpause, true);
 		}
 		public function destruct(): void {
 			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
+			stage.removeEventListener("PAUSE", this.pause, true);
+			stage.removeEventListener("UNPAUSE", this.unpause, true);
+		}
+		public function pause(evt:Event): void {
+			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
+		}
+		public function unpause(evt:Event): void {
+			this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
 		}
 		public function bindEnterFrame(evt:Event): void {
 			++_frames;

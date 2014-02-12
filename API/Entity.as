@@ -23,6 +23,7 @@ package API {
 		private var _currentBounce:Number = bounceBasePower;
 		private var _maxHeightReached:Number = Number.MAX_VALUE;
 		private var _bounceHeight:int = 0;
+		private var _isBounce:Boolean = false;
 		
 		private var _currentSlide:int = 0;
 		private var _isSliding:Boolean = false;
@@ -52,7 +53,6 @@ package API {
 		public var slideDecreaseMultiplier = slideDecreaseMultiplier_default;
 		
 		public static var envObj:Array = [];
-		public static var bck;
 		
 		public static const gravityBasePower_default:Number = 8;
 		public static const gravityIncreaseMultiplier_default:Number = 1.4;
@@ -125,10 +125,13 @@ package API {
 			
 			if(!onGround && this.y < _maxHeightReached)
 				_maxHeightReached = this.y;
+			else if(onGround && !bounceEnabled)
+				_maxHeightReached = Number.MAX_VALUE;
 			
 			//Bounce
 			if(bounceEnabled){
 				if(onGround){
+					_isBounce = true
 					_bounceHeight = Math.ceil(this.y - (this.y - _maxHeightReached) * bounceBackHeight);
 					gravityEnabled = false;
 					onGround = false;
@@ -193,7 +196,7 @@ package API {
 			collidobj.sort(Environment.less_y);
 			for(i = 0; i < collidobj.length; ++i){
 				for(p = 0; p <= g_testpoint.length; ++p){
-					for(var q:Number = this.y + this.height / 4; q < ny + this.height / 2; ++q){
+					for(var q:Number = this.y; q < ny + this.height / 2; ++q){
 						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true) && 
 							!collidobj[i].hitTestPoint(this.x + g_testpoint[p], q - 1, true)){
 							
@@ -286,6 +289,8 @@ package API {
 					xLines[p].graphics.lineStyle(1, 0xFF0000, 1);
 					xLines[p].graphics.moveTo(setPoint, this.y + x_testpoint[p]);
 					xLines[p].graphics.lineTo(nx + setPoint - tpoint, this.y + x_testpoint[p]);
+					
+					//stage.addChild(xLines[p]);
 					
 					if(x_collid_hit_test(envObj[i], xLines[p]) && envObj[i] != this){
 						collidobj.push(envObj[i]);

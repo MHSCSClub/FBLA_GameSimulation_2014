@@ -52,14 +52,14 @@ package API {
 		public function pause(evt:Event): void {
 			if(_spawn) {
 				_obj.removeEventListener(Event.ENTER_FRAME, _obj.bindEnterFrame);
+				this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
 			}
-			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
 		}
 		public function unpause(evt:Event): void {
 			if(_spawn) {
 				_obj.addEventListener(Event.ENTER_FRAME, _obj.bindEnterFrame);
+				this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
 			}
-			this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
 		}
 		public function construct(): void {
 			this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);

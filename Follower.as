@@ -30,6 +30,9 @@
 			keymove();
 			super.entity_update();
 		}
+		override public function g_collid_hit_test(c_obj:Environment, ln:Shape): Boolean {
+			return c_obj.hitTestObject(ln) && !(c_obj is Player);
+		}
 		//movement exactly the same as player
 		public function keymove(): void {
 			var circle:Shape = new Shape();

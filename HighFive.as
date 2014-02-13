@@ -2,6 +2,7 @@
 	
 	import API.*;
 	import flash.events.Event;
+	import flash.display.Shape;
 	
 	public class HighFive extends Entity{
 		
@@ -14,6 +15,9 @@
 		}
 		override public function bindEnterFrame(evt:Event): void {
 			super.entity_update();
+		}
+		override public function g_collid_hit_test(c_obj:Environment, ln:Shape): Boolean {
+			return c_obj.hitTestObject(ln) && !(c_obj is Player);
 		}
 		override public function x_setVariables(ett:Entity): void {
 			if(!giveFive){

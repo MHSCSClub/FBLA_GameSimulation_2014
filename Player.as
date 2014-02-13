@@ -30,7 +30,7 @@ package {
 		public static var possess_obj:Boolean = false;
 		
 		public var moveunit:int = 10;
-		public var jumpunit:int = 30;
+		public var jumpunit:int = 20;
 		public var jumplimit:int = 5;
 		public var jumpDecreaseMultiplier = .9;
 		
@@ -39,8 +39,10 @@ package {
 			
 			this.fallThroughEnabled = false;
 			//offsets
-			g_testpoint.push(-7.0);
-			g_testpoint.push(17);
+			g_testpoint.push(-8.0);
+			g_testpoint.push(19);
+			//g_testpoint.push(this.width / 2);
+			//g_testpoint.push(-this.width / 2);
 			for(var q:Number = -this.height / 4; q < 1; q += this.height / 4){
 				x_testpoint.push(q);
 			}

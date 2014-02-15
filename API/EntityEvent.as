@@ -8,12 +8,14 @@
 		
 		public static const DEATH:String = "entityDeath";
 		public static const HITSENSOR:String = "hitSensor";
+		public static const WORDDEF:String = "wordDef";
+		public static var BUTTONPRESS:String = "buttonPress";
 
 		public function EntityEvent(type:String, sig, bubbles:Boolean=false, cancelable:Boolean=true) {
 			super(type, bubbles, cancelable);
 			_sig = sig;
 		}
-		public function get sig(): int {
+		public function get sig() {
 			return _sig;
 		}
 		override public function clone(): Event {

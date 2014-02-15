@@ -4,6 +4,8 @@
 	import flash.events.Event;
 	
 	public class nextlevel_sensor extends Sensor{
+		
+		public var _gave:Boolean = false;
 
 		public function nextlevel_sensor() { 
 			this.visible = true;
@@ -16,8 +18,9 @@
 				return;
 			if(Player.people_skill_count < 3)
 				return
-			if(ett is Player){
-				dispatchEvent(new Event("NEXT_LEVEL"));
+			if(ett is Player && !_gave){
+				dispatchEvent(new Event("LEVEL_DONE"));
+				_gave = true;
 			}
 		}
 		

@@ -18,7 +18,8 @@
 
 		public function Follower(sig:int, nx:Number, ny:Number) {
 			super(sig, nx, ny);
-			this.g_testpoint.push(0);
+			this.g_testpoint.push(this.width / 2);
+			this.g_testpoint.push(-this.width / 2);
 			this.x_testpoint.push(0);
 			this.fallThroughEnabled = true;
 		}

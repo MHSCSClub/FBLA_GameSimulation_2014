@@ -28,19 +28,6 @@ package API {
 		public function create_event(ett:Entity): void {
 			
 		}
-/*		public function bindEnterFrame(evt:Event): void {
-			if(player_spawner.playerConstructed) {
-				if(this.hitTestObject(Entity.envObj[Player.p_sig])) {
-					create_event();
-				}
-			}
-		}
-		public function construct() {
-			this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
-		}
-		public function destruct() {
-			this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);
-		}*/
 		
 	}
 	

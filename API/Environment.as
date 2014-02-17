@@ -28,6 +28,7 @@ package API {
 			if(_sig != -1) {
 				return _sig;
 			} else {
+				return -1;
 				throw new Error("Sig not set");
 			}
 		}

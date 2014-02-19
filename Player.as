@@ -39,10 +39,10 @@ package {
 			
 			this.fallThroughEnabled = false;
 			//offsets
-			g_testpoint.push(-8.0);
-			g_testpoint.push(19);
-			//g_testpoint.push(this.width / 2);
-			//g_testpoint.push(-this.width / 2);
+			//g_testpoint.push(-8.0);
+			//g_testpoint.push(19);
+			g_testpoint.push(this.width / 2);
+			g_testpoint.push(-this.width / 2 + 3);
 			for(var q:Number = -this.height / 4; q < 1; q += this.height / 4){
 				x_testpoint.push(q);
 			}
@@ -94,12 +94,19 @@ package {
 			}
 			//Right Left movement
 			if(_keycode[Keyboard.RIGHT]){
+				//Movement: 1-13
 				this.movex += moveunit;
-				//this.gotoAndPlay(8);
+				if(this.currentFrame >= 13)
+					this.gotoAndPlay(1);
+				else
+					this.nextFrame();
 			}
 			if(_keycode[Keyboard.LEFT]) {
 				this.movex -= moveunit;
-				//this.gotoAndPlay(8);
+				if(this.currentFrame < 14 || this.currentFrame >= 26)
+					this.gotoAndPlay(14);
+				else
+					this.nextFrame();
 			}
 		}
 		override public function bindEnterFrame(evt:Event):void {
@@ -115,7 +122,6 @@ package {
 		}
 		public function bindKeyUp(kevt:KeyboardEvent): void {
 			_keycode[kevt.keyCode] = false;
-			//this.gotoAndPlay(1);
 		}
 		
 		public function drawBoundLines(): void {
@@ -127,7 +133,6 @@ package {
 			shp.graphics.lineStyle(2, 0x0000FF, 2);
 			shp.graphics.moveTo(sx, sy);
 			shp.graphics.lineTo(fx, fy);
-			//stage.addChild(shp);
 		}
 		override public function scroll_x(nx:Number): void {
 			var ml:Shape = new Shape();

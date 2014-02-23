@@ -19,7 +19,7 @@
 			if(Player.people_skill_count < 3)
 				return
 			if(ett is Player && !_gave){
-				dispatchEvent(new Event("LEVEL_DONE"));
+				this.gotoAndPlay(2);
 				_gave = true;
 			}
 		}

@@ -12,7 +12,7 @@
 		override public function create_event(ett:Entity): void {
 			if(ett is Player && Player.possess_obj && !_gave) {
 				Player.negotiation_skill_count++;
-				this.visible = false;
+				this.gotoAndPlay(2);
 				_gave = true;
 			}
 		}

@@ -23,6 +23,7 @@
 			if(!giveFive){
 				++Player.people_skill_count;
 				giveFive = true;
+				this.gotoAndStop(2);
 			}
 		}
 

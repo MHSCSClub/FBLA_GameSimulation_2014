@@ -41,8 +41,9 @@ package {
 			//offsets
 			//g_testpoint.push(-8.0);
 			//g_testpoint.push(19);
-			g_testpoint.push(this.width / 2);
-			g_testpoint.push(-this.width / 2 + 3);
+			g_testpoint.push(this.width / 2 - 1);
+			g_testpoint.push(0);
+			g_testpoint.push(-this.width / 2 + 1);
 			for(var q:Number = -this.height / 4; q < 1; q += this.height / 4){
 				x_testpoint.push(q);
 			}

@@ -18,9 +18,10 @@
 
 		public function Follower(sig: int, nx: Number, ny: Number) {
 			super(sig, nx, ny);
-			this.g_testpoint.push(this.width / 2);
-			this.g_testpoint.push(-this.width / 2);
-			this.x_testpoint.push(0);
+			this.g_testpoint.push(this.width / 2 - 5);
+			this.g_testpoint.push(-this.width / 2 + 5);
+			this.x_testpoint.push(this.height / 2 - 10);
+			this.x_testpoint.push(-this.height / 2 + 10);
 			this.fallThroughEnabled = true;
 		}
 		override public function bindEnterFrame(evt: Event): void {

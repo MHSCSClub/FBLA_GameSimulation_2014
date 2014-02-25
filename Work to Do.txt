@@ -1,0 +1,14 @@
+JOBS:
+
+
+JACK:
+-Finsh levels 3, 4, 5 collisions
+-Insert proper backgrounds
+
+VICTOR:
+-Draw directions
+-Animate the end
+-Insert words
+
+YI:
+-Do your thing

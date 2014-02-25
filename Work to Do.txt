@@ -9,6 +9,9 @@ VICTOR:
 -Draw directions
 -Animate the end
 -Insert words
+-Animate the Desk
+-draw coffee
 
 YI:
+-implement the desk animation
 -Do your thing

@@ -3,10 +3,10 @@
 	import flash.display.MovieClip;
 	
 	
-	public class Collsion_Level_4 extends basic_ground{
+	public class collision_level_4 extends basic_ground {
 		
 		
-		public function Collsion_Level_4() {
+		public function collision_level_4() {
 			// constructor code
 		}
 	}

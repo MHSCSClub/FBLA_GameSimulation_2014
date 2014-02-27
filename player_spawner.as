@@ -16,7 +16,7 @@
 		override public function spawn(): void {
 			var np:Player = new Player(Entity.envObj.length, this.x, this.y);
 			this._obj_sig = Entity.envObj.length;
-			(root as MovieClip).addChildAt(np, (root as MovieClip).numChildren - 1);
+			(root as MovieClip).addChildAt(np, (root as MovieClip).numChildren - 3);
 			Entity.envObj.push(np);
 			np.addEventListener(Event.ENTER_FRAME, np.bindEnterFrame);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, np.bindKeyDown);

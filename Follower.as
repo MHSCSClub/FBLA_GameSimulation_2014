@@ -27,6 +27,7 @@
 		override public function bindEnterFrame(evt: Event): void {
 			if (this.health <= 0) {
 				dispatchEvent(new EntityEvent(EntityEvent.DEATH + this.sig, this.sig));
+				dispatchEvent(new Event("PLAYER_DEATH"));
 				return;
 			}
 			keymove();

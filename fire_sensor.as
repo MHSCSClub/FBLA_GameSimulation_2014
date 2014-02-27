@@ -5,11 +5,12 @@
 	
 	public class fire_sensor extends Sensor {
 		
-		private var _on:Boolean = true;
 		private var _damage:int = 5;
 		private var _current_wait:int = 0;
 		
-		public var _wait:int = 150;
+		public var wait:int = 150;
+		
+		public var _on:Boolean = true;
 		
 		public function fire_sensor() {
 			this.visible = true;
@@ -18,7 +19,7 @@
 		public function bindEnterFrame(evt:Event): void {
 			if(!_on) {
 				++_current_wait;
-				if(_current_wait == _wait) {
+				if(_current_wait == wait) {
 					turnon();
 					_current_wait = 0;
 				}				
@@ -34,6 +35,7 @@
 			this.visible = true;
 			_on = true;
 			_damage = 5;
+			dispatchEvent(new EntityEvent(EntityEvent.APPEAR + "done", ""));
 		}
 		
 		override public function create_event(ett:Entity): void {

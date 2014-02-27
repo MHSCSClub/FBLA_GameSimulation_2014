@@ -6,6 +6,7 @@
 	public class Infotable extends Environment{
 
 		public function Infotable() {
+			this.fallThroughEnabled = true;
 			this.eventFrameBind = true;
 		}
 		public function construct(): void {

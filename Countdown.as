@@ -10,6 +10,7 @@
 		
 		public function Countdown() {
 			this.eventFrameBind = true;
+			this.fallThroughEnabled = true;
 			_minutes = parseInt(this.text_min.text, 10);
 			_seconds = parseInt(this.text_sec.text, 10);
 		}

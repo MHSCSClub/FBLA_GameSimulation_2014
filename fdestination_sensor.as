@@ -14,6 +14,7 @@
 			if(ett is Follower && !_gave) {
 				++Player.leadership_skill_count;
 				dispatchEvent(new EntityEvent(EntityEvent.HITSENSOR + "REACHEDDEST", "REACHEDDEST"));
+				this.nextFrame();
 				_gave = true;
 			}
 		}

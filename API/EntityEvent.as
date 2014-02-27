@@ -10,6 +10,7 @@
 		public static const HITSENSOR:String = "hitSensor";
 		public static const WORDDEF:String = "wordDef";
 		public static var BUTTONPRESS:String = "buttonPress";
+		public static var APPEAR:String = "appear";
 
 		public function EntityEvent(type:String, sig, bubbles:Boolean=false, cancelable:Boolean=true) {
 			super(type, bubbles, cancelable);

@@ -5,7 +5,7 @@
 		
 		public function management_word() {
 			this._word = "Management";
-			this._def = "the act or skill of controlling and making decisions about a business";
+			this._def = "making decisions about a business";
 		}
 	}
 	

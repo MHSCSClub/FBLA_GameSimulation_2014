@@ -4,7 +4,7 @@
 
 		public function earnings_word() {
 			this._word = "earnings";
-			this._def = "money received as wages or gained as profit";
+			this._def = "money gained as profit";
 		}
 	}
 	

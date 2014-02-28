@@ -4,7 +4,7 @@
 
 		public function accountsrecivable_word() {
 			this._word = "Accounts Recivable";
-			this._def = "a balance due from a debtor on a current account";
+			this._def = "balance due from debtors";
 
 		}
 	}

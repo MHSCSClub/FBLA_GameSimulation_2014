@@ -4,7 +4,7 @@
 
 		public function dividends_word() {
 			this._word = "dividends";
-			this._def = "an amount of a company's profits that the company pays to people who own stock in the company";
+			this._def = "Profits paid to stockholders";
 		}
 	}
 	

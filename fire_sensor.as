@@ -27,12 +27,12 @@
 		}
 		
 		private function turnoff(evt:Event): void {
-			this.visible = false;
+			this.gotoAndPlay(13);
 			_on = false;
 			_damage = 0;
 		}
 		private function turnon(): void {
-			this.visible = true;
+			this.gotoAndPlay(1);
 			_on = true;
 			_damage = 5;
 			dispatchEvent(new EntityEvent(EntityEvent.APPEAR + "done", ""));

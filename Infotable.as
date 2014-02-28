@@ -8,6 +8,10 @@
 		public function Infotable() {
 			this.fallThroughEnabled = true;
 			this.eventFrameBind = true;
+			trace(Player.current_level);
+			if(Player.current_level >= 7) {
+				this.gotoAndPlay(2);
+			}
 		}
 		public function construct(): void {
 			this.addEventListener(Event.ENTER_FRAME, this.bindEnterFrame);

@@ -16,6 +16,7 @@ package API {
 	import flash.display.Shape;
 	import flash.events.Event;
 	import API.*;
+	import flash.utils.Dictionary;
 	
 	public class Entity extends Environment {
 		private var _currentGravity:Number = gravityBasePower;
@@ -65,6 +66,7 @@ package API {
 		
 		public static const slideDecreaseMultiplier_default:Number = .9;
 		
+		public var yRect:Shape = new Shape();
 		public var yLines:Array = [];
 		public var xLines:Array = [];
 		
@@ -155,7 +157,7 @@ package API {
 			if(gravityEnabled){
 				ny = this.y + _currentGravity;
 				if(!gravity_collision(ny)){
-					_currentGravity *= gravityIncreaseMultiplier;
+					_currentGravity += gravityIncreaseMultiplier;
 					onGround = false;
 				}else if(!onGround){
 					gravity_collision(ny);
@@ -174,17 +176,21 @@ package API {
 			var collidobj:Array = [];
 
 			for(var i:int = 0; i < envObj.length; ++i){
+				var count:int = 0;
 				for(var p:int = 0; p < g_testpoint.length; ++p){
 					yLines[p].graphics.clear();
-					yLines[p].graphics.lineStyle(1, 0xFF0000, 1);
-					yLines[p].graphics.moveTo(this.x + g_testpoint[p], this.y + this.height / 2);
-					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny + this.height / 2);
-					//stage.addChild(yLines[p]);
+					yLines[p].graphics.beginFill(0xFF0000);
+					yLines[p].graphics.moveTo(this.x + g_testpoint[p], this.y + this.height);
+					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny);
 					
 					if(g_collid_hit_test(envObj[i], yLines[p]) && !envObj[i].fallThroughEnabled && envObj[i] != this){
-						collidobj.push(envObj[i]);
+						++count;
 					}
 				}
+				if(count > 0) {
+					collidobj.push(envObj[i]);
+				}
+
 			}
 			//If there are no collisions, return
 			if(collidobj.length == 0){
@@ -196,16 +202,15 @@ package API {
 			collidobj.sort(Environment.less_y);
 			for(i = 0; i < collidobj.length; ++i){
 				for(p = 0; p <= g_testpoint.length; ++p){
-					for(var q:Number = this.y + this.height / 4; q < ny + this.height / 2; ++q){
-						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true) && 
-							!collidobj[i].hitTestPoint(this.x + g_testpoint[p], q - 1, true)){
+					for(var q:int = this.y + this.height - 5; q < ny + this.height; ++q){
+						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true)){
 							
-/*							dl.graphics.lineStyle(10, 0x00FF00, 10);
+							/*dl.graphics.lineStyle(10, 0x00FF00, 10);
 							dl.graphics.moveTo(this.x + g_testpoint[p], q - 1);
 							dl.graphics.lineTo(this.x + g_testpoint[p], q);
-							stage.addChild(dl);*/
+							stage.addChild(dl); */
 							
-							this.y = Math.ceil(q - this.height / 2);
+							this.y = q - this.height;
 							g_env_set_var(collidobj[i]);
 							return true;
 						}
@@ -226,18 +231,21 @@ package API {
 			var collidobj:Array = [];
 			
 			for(var i:int = 0; i < envObj.length; ++i){
+				var count:int = 0;
 				for(var p:int = 0; p < g_testpoint.length; ++p){
 					yLines[p].graphics.clear();
 					yLines[p].graphics.lineStyle(1, 0xFF0000, 1);
-					yLines[p].graphics.moveTo(this.x + g_testpoint[p], this.y - this.height / 2);
-					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny - this.height / 2);
+					yLines[p].graphics.moveTo(this.x + g_testpoint[p], this.y);
+					yLines[p].graphics.lineTo(this.x + g_testpoint[p], ny);
 					//stage.addChild(yLines[p]);
 					
-					//stage.addChild(vl); //Uncomment for debug
 					
 					if(j_collid_hit_test(envObj[i], yLines[p]) && !envObj[i].jumpThroughEnabled && envObj[i] != this){
-						collidobj.push(envObj[i]);
+						++count;
 					}
+				}
+				if(count > 0) {
+					collidobj.push(envObj[i]);
 				}
 			}
 			//If there are no collisions, return
@@ -249,10 +257,10 @@ package API {
 			collidobj.sort(Environment.less_y);
 			for(i = 0; i < collidobj.length; ++i){
 				for(p = 0; p <= g_testpoint.length; ++p){
-					for(var q:Number = this.y - this.height / 2; q > ny - this.height / 2; --q){
+					for(var q:int = this.y; q > ny; --q){
 						if(collidobj[i].hitTestPoint(this.x + g_testpoint[p], q, true)){
 							
-							this.y = q + this.height / 2;
+							this.y = Math.ceil(q);
 							j_env_set_var(collidobj[i]);
 							return true;
 						}
@@ -276,23 +284,28 @@ package API {
 			var tpoint = this.x;
 			
 			if(nx - this.x > 0){
-				setPoint = this.x + this.width / 2; //moving to the right
+				setPoint = this.x + this.width; //moving to the right
 				inc = 1;
 			} else {
-				setPoint = this.x - this.width / 2; //moving to the left
+				setPoint = this.x; //moving to the left
 				inc = -1;
 			}
 			
 			for(var i:int = 0; i < envObj.length; ++i){
+				var count:int = 0;
 				for(var p:int = 0; p < x_testpoint.length; ++p){
 					xLines[p].graphics.clear();
 					xLines[p].graphics.lineStyle(1, 0xFF0000, 1);
 					xLines[p].graphics.moveTo(setPoint, this.y + x_testpoint[p]);
 					xLines[p].graphics.lineTo(nx + setPoint - tpoint, this.y + x_testpoint[p]);
+					//stage.addChild(xLines[p]);
 					
 					if(x_collid_hit_test(envObj[i], xLines[p]) && envObj[i] != this){
-						collidobj.push(envObj[i]);
+						++count;
 					}
+				}
+				if(count > 0) {
+					collidobj.push(envObj[i]);
 				}
 			}
 			if(collidobj.length == 0){

@@ -41,12 +41,11 @@ package {
 			//offsets
 			//g_testpoint.push(-8.0);
 			//g_testpoint.push(19);
-			g_testpoint.push(this.width / 2 - 1);
-			g_testpoint.push(0);
-			g_testpoint.push(-this.width / 2 + 1);
-			for(var q:Number = -this.height / 4; q < 1; q += this.height / 4){
-				x_testpoint.push(q);
-			}
+			g_testpoint.push(this.width - 5);
+			g_testpoint.push(this.width / 2);
+			g_testpoint.push(5);
+			x_testpoint.push(5);
+			x_testpoint.push(this.height / 2 + 10);
 			if(_p_sig == -1) {
 				_p_sig = this.sig;
 			} else {
@@ -78,7 +77,6 @@ package {
 				_jcount = jumplimit + 1;
 				this.onGround = false;
 				this.gravityEnabled = false;
-				//this.gotoAndPlay(2);
 			}
 			if(_jcount > 1){
 				if(_keycode[Keyboard.UP]){

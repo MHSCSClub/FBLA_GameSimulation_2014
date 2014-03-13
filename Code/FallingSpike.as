@@ -7,10 +7,11 @@
 		
 		public function FallingSpike(nsig:int, nx:Number = 0, ny:Number = 0) {
 			super(nsig, nx, ny);
-			this.g_testpoint.push(0);
+			this.g_testpoint.push(25);
 			this.gravityBasePower = 8;
 			this.moveThroughEnabled = false;
 			this.jumpThroughEnabled = false;
+			this.fallThroughEnabled = false;
 			this.bounceEnabled = false;
 		}
 		override public function bindEnterFrame(evt:Event): void {

@@ -19,9 +19,9 @@
 		public function Follower(sig: int, nx: Number, ny: Number) {
 			super(sig, nx, ny);
 			this.g_testpoint.push(this.width / 2 - 5);
-			this.g_testpoint.push(-this.width / 2 + 5);
-			this.x_testpoint.push(this.height / 2 - 10);
-			this.x_testpoint.push(-this.height / 2 + 10);
+			this.g_testpoint.push(this.width / 2 + 5);
+			this.x_testpoint.push(this.height / 2 - 5);
+			this.x_testpoint.push(this.height / 2 + 5);
 			this.fallThroughEnabled = true;
 		}
 		override public function bindEnterFrame(evt: Event): void {
@@ -55,7 +55,7 @@
 				}
 				if (_keycode[Keyboard.LEFT]) {
 					this.movex -= moveunit;
-					if (this.currentFrame < 9 || this.currentFrame >= 16)
+					if (this.currentFrame < 9 || this.currentFrame >= 15)
 						this.gotoAndPlay(9);
 					else
 						this.nextFrame();

@@ -37,6 +37,9 @@
 				_frames = 0;
 			}
 		}
+		public function retScore(): int {
+			return _seconds + _minutes * 60;
+		}
 		private function updateTimer(): void {
 			if(_seconds == 0 && _minutes == 0) {
 				this.removeEventListener(Event.ENTER_FRAME, this.bindEnterFrame);

@@ -22,6 +22,7 @@
 			this.g_testpoint.push(this.width / 2 + 5);
 			this.x_testpoint.push(this.height / 2 - 5);
 			this.x_testpoint.push(this.height / 2 + 5);
+			this.health = 10;
 			this.fallThroughEnabled = true;
 		}
 		override public function bindEnterFrame(evt: Event): void {

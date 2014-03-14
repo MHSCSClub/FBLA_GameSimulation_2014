@@ -22,6 +22,7 @@ package {
 		private static var _p_sig:int = -1;
 		
 		public static var current_level:int = 5;
+		public static var score:int = 0;
 		
 		public static var people_skill_count:int = 0;
 		public static var leadership_skill_count:int = 0;
@@ -33,14 +34,13 @@ package {
 		public var jumpunit:int = 20;
 		public var jumplimit:int = 5;
 		public var jumpDecreaseMultiplier = .9;
+		public var deathCount:int = 0;
 		
 		public function Player(nsig:int, nx:Number = 0, ny:Number = 0) {
 			super(nsig, nx, ny);
 			
 			this.fallThroughEnabled = false;
 			//offsets
-			//g_testpoint.push(-8.0);
-			//g_testpoint.push(19);
 			g_testpoint.push(this.width - 5);
 			g_testpoint.push(this.width / 2);
 			g_testpoint.push(5);
@@ -110,6 +110,7 @@ package {
 		}
 		override public function bindEnterFrame(evt:Event):void {
 			if(this.health <= 0){
+				++deathCount;
 				dispatchEvent(new EntityEvent(EntityEvent.DEATH + this.sig, this.sig));
 				return;
 			}

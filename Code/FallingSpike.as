@@ -13,6 +13,8 @@
 			this.jumpThroughEnabled = false;
 			this.fallThroughEnabled = false;
 			this.bounceEnabled = false;
+			this.gravityBasePower = 15;
+			this.gravityIncreaseMultiplier = 3;
 		}
 		override public function bindEnterFrame(evt:Event): void {
 			super.entity_update();

@@ -7,7 +7,7 @@
 		private var _gave:Boolean = false;
 		
 		public var x_coor:int = -1000;
-		public var y_coor:int = 390;
+		public var y_coor:int = 350;
 
 		public function teleporter_sensor() { 
 				this.visible = true;

@@ -21,7 +21,8 @@ package {
 		
 		private static var _p_sig:int = -1;
 		
-		public static var current_level:int = 5;
+		public static var current_level:int = 1;
+		public static var lvl_offset:int = 4;
 		public static var score:int = 0;
 		
 		public static var people_skill_count:int = 0;

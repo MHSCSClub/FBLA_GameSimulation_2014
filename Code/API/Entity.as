@@ -59,8 +59,8 @@ package API {
 		public static const gravityIncreaseMultiplier_default:Number = 1.4;
 		
 		public static const bounceBackHeight_default:Number = 0.5;
-		public static const bounceBasePower_default:Number = 20;
-		public static const bounceIncreaseMultiplier_default:Number = 1;
+		public static const bounceBasePower_default:Number = 25;
+		public static const bounceIncreaseMultiplier_default:Number = 2;
 		
 		public static const frictionMultiplier_default:Number = 0.2;
 		

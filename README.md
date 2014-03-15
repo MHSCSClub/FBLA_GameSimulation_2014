@@ -1,7 +1,7 @@
 FBLA_Project
 ============
-Computer Simulation for FBLA 13-14
+Computer Simulation for FBLA 13-14 v1.02b
 
-Read Code Style!!
+If you want to play, just download "Game.swf"
 
---Victor Odouard, Yi Zhao, Jack Phillips
+--Yi Zhao, Jack Phillips, Victor Odouard

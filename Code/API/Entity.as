@@ -56,7 +56,7 @@ package API {
 		public static var envObj:Array = [];
 		
 		public static const gravityBasePower_default:Number = 8;
-		public static const gravityIncreaseMultiplier_default:Number = 1.4;
+		public static const gravityIncreaseMultiplier_default:Number = 3.5;
 		
 		public static const bounceBackHeight_default:Number = 0.5;
 		public static const bounceBasePower_default:Number = 25;

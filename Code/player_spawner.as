@@ -29,14 +29,12 @@
 			if(playerConstructed) {
 				Entity.envObj[this._obj_sig].removeEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, Entity.envObj[this._obj_sig].bindKeyDown);
-				stage.removeEventListener(KeyboardEvent.KEY_UP, Entity.envObj[this._obj_sig].bindKeyUp);
 			}
 		}
 		override public function unpause(evt:Event): void {
 			if(playerConstructed) {
 				Entity.envObj[this._obj_sig].addEventListener(Event.ENTER_FRAME, Entity.envObj[this._obj_sig].bindEnterFrame);
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, Entity.envObj[this._obj_sig].bindKeyDown);
-				stage.addEventListener(KeyboardEvent.KEY_UP, Entity.envObj[this._obj_sig].bindKeyUp);
 			}
 		}
 		override public function despawn(evt:Event): void {

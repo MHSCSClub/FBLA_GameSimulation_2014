@@ -17,12 +17,12 @@
 		}
 		
 		override public function create_event(ett:Entity): void {
-			if(Player.leadership_skill_count < leadership_requirements)
+			if(!Player.leadership_skill)
 				return;
-			if(Player.negotiation_skill_count < negotiation_requirements)
+			if(!Player.negotiation_skill)
 				return;
 			if(Player.people_skill_count < people_skill_requirements)
-				return
+				return;
 			if(ett is Player && !_gave){
 				this.gotoAndPlay(2);
 				_gave = true;

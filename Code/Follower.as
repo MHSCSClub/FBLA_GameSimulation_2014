@@ -34,9 +34,6 @@
 			keymove();
 			super.entity_update();
 		}
-		override public function g_collid_hit_test(c_obj: Environment, ln: Shape): Boolean {
-			return c_obj.hitTestObject(ln) && !(c_obj is Player);
-		}
 		//movement exactly the same as player
 		public function keymove(): void {
 			var circle: Shape = new Shape();
@@ -56,8 +53,8 @@
 				}
 				if (_keycode[Keyboard.LEFT]) {
 					this.movex -= moveunit;
-					if (this.currentFrame < 9 || this.currentFrame >= 15)
-						this.gotoAndPlay(9);
+					if (this.currentFrame < 10 || this.currentFrame >= 15)
+						this.gotoAndPlay(10);
 					else
 						this.nextFrame();
 				}
@@ -67,7 +64,6 @@
 					_jcount = jumplimit + 1;
 					this.onGround = false;
 					this.gravityEnabled = false;
-					this.gotoAndPlay(2);
 				}
 				if (_jcount > 1) {
 					if (_keycode[Keyboard.UP]) {

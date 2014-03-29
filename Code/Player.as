@@ -26,10 +26,9 @@ package {
 		public static var score:int = 0;
 		
 		public static var people_skill_count:int = 0;
-		public static var leadership_skill_count:int = 0;
-		public static var negotiation_skill_count:int = 0;
-		
-		public static var possess_obj:Boolean = false;
+		public static var leadership_skill:Boolean = false;
+		public static var negotiation_skill:Boolean = false;
+		public static var smile_count:int = 0;
 		
 		public var moveunit:int = 10;
 		public var jumpunit:int = 20;
@@ -66,9 +65,9 @@ package {
 		public function destruct(): void {
 			_p_sig = -1;
 			people_skill_count = 0;
-			leadership_skill_count = 0;
-			negotiation_skill_count = 0;
-			possess_obj = false;
+			leadership_skill = false;
+			negotiation_skill = false;
+			smile_count = 0;
 		}
 		
 		//Responsible for player move

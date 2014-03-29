@@ -12,7 +12,7 @@
 		
 		override public function create_event(ett:Entity): void {
 			if(ett is Follower && !_gave) {
-				++Player.leadership_skill_count;
+				Player.leadership_skill = true;
 				dispatchEvent(new EntityEvent(EntityEvent.HITSENSOR + "REACHEDDEST", "REACHEDDEST"));
 				this.nextFrame();
 				_gave = true;

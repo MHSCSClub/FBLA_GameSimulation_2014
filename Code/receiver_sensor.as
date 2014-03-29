@@ -10,8 +10,8 @@
 			this.visible = true;
 		}
 		override public function create_event(ett:Entity): void {
-			if(ett is Player && Player.possess_obj && !_gave) {
-				Player.negotiation_skill_count++;
+			if(ett is Player && Player.smile_count > 0 && !_gave) {
+				Player.negotiation_skill = true;
 				this.gotoAndPlay(2);
 				_gave = true;
 			}

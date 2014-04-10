@@ -197,7 +197,6 @@ package API {
 				this.y = ny;
 				return false;
 			}
-			
 			var dl:Shape = new Shape();
 			collidobj.sort(Environment.less_y);
 			for(i = 0; i < collidobj.length; ++i){
@@ -209,7 +208,6 @@ package API {
 							dl.graphics.moveTo(this.x + g_testpoint[p], q - 1);
 							dl.graphics.lineTo(this.x + g_testpoint[p], q);
 							stage.addChild(dl); */
-							
 							this.y = q - this.height;
 							g_env_set_var(collidobj[i]);
 							return true;

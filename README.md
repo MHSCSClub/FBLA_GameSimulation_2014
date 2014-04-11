@@ -4,6 +4,6 @@ Computer Simulation for FBLA 13-14 v1.02b
 
 If you want to play, just download "Game.swf"
 
-1st place for NY state, v1.01 submission
+Our v1.0 version was an NY state winner!
 
 --Yi Zhao, Jack Phillips, Victor Odouard

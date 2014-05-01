@@ -26,12 +26,9 @@
 				this.text_led.text = "✔";
 			}
 			if(!Player.negotiation_skill) {
-				this.text_neg.text = String(Player.smile_count);
+				this.text_neg.text.text = String(Player.smile_count);
 			} else {
-				var txtfmt:TextFormat = new TextFormat();
-				txtfmt.font = "Arial Unicode MS Regular";
-				this.text_neg.text = "✔";
-				this.text_neg.setTextFormat(txtfmt);
+				this.text_neg.nextFrame();
 			}
 		}
 		override public function scroll_obj(movex:Number, movey:Number): void { }

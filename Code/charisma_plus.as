@@ -8,9 +8,9 @@
 		
 		
 		public function charisma_plus() {
-			this.moveThroughEnabled = false;
-			this.fallThroughEnabled = false;
-			this.jumpThroughEnabled = false;
+			this.moveThroughEnabled = true;
+			this.fallThroughEnabled = true;
+			this.jumpThroughEnabled = true;
 		}
 		public function bindEnterFrame(evt:Event): void {
 			this.alpha -= .04;

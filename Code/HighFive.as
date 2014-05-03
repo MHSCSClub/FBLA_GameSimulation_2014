@@ -8,6 +8,8 @@
 	public class HighFive extends Entity{
 		
 		private var giveFive:Boolean = false;
+		private var _sig:int;
+		
 		public static var sayingsList1:Array;
 		public static var sayingsList2:Array;
 		public var choice:int = 0;
@@ -39,6 +41,7 @@
 				c.addEventListener(Event.ENTER_FRAME, c.bindEnterFrame);
 				c.addEventListener(EntityEvent.DEATH + "c", c.despawn);
 				(root as MovieClip).addChild(c);
+				Entity.envObj.push(c);
 				this.gotoAndStop(2);
 			}
 		}

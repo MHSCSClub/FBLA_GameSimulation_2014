@@ -16,6 +16,11 @@
 			stage.addEventListener(EntityEvent.BUTTONPRESS + "g", bindChoice, true);
 		}
 		
+		override public function destruct() : void {
+			super.destruct();
+			stage.removeEventListener(EntityEvent.BUTTONPRESS + "g", bindChoice, true);
+		}
+		
 		override public function bindEnterFrame(evt:Event): void {
 			if(this.x > 0 && this.x < stage.stageWidth){
 				spawn();
@@ -29,7 +34,7 @@
 		}
 		private function bindChoice(eevt:EntityEvent): void {
 			choice = eevt.sig;
-			stage.removeEventListener(EntityEvent.BUTTONPRESS + "g", bindChoice, true);
+
 		}
 	}
 	

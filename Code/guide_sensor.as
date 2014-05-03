@@ -13,7 +13,7 @@
 		public static var box_text:String = "";
 
 		public function guide_sensor() { 
-				this.visible = true;
+			this.visible = true;
 		}
 		
 		override public function create_event(ett:Entity): void {
@@ -32,6 +32,7 @@
 			stage.removeChild(_guide);
 			dispatchEvent(new Event("UNPAUSE"));
 			this.stage.focus = (root as MovieClip);
+			stage.removeEventListener(EntityEvent.BUTTONPRESS + "g", bindButtonPress, true);
 		}
 	}
 	

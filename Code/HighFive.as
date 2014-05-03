@@ -3,6 +3,7 @@
 	import API.*;
 	import flash.events.Event;
 	import flash.display.Shape;
+	import flash.display.MovieClip;
 	
 	public class HighFive extends Entity{
 		
@@ -32,6 +33,12 @@
 					dispatchEvent(new EntityEvent(EntityEvent.WORDDEF, sayingsList1[num-1]));
 				else if(choice == 2)
 					dispatchEvent(new EntityEvent(EntityEvent.WORDDEF, sayingsList2[num-1]));
+				var c = new charisma_plus();
+				c.x = (this.width - c.width) / 2 + this.x;
+				c.y = (this.height - c.height) / 2 + this.y;
+				c.addEventListener(Event.ENTER_FRAME, c.bindEnterFrame);
+				c.addEventListener(EntityEvent.DEATH + "c", c.despawn);
+				(root as MovieClip).addChild(c);
 				this.gotoAndStop(2);
 			}
 		}

@@ -13,7 +13,8 @@
 		
 		override public function create_event(ett:Entity): void {
 			if(ett is Player && !_gave) {
-				dispatchEvent(new Event("PAUSE"));
+				dispatchEvent(new EntityEvent(EntityEvent.APPEAR + "ground", ""));
+				this.nextFrame();
 				_gave = true;
 			}
 		}

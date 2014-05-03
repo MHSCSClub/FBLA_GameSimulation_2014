@@ -1,6 +1,7 @@
 ﻿package  {
 	
 	import API.*;
+	import flash.events.Event;
 	
 	public class appear_sensor extends Sensor{
 		
@@ -12,8 +13,7 @@
 		
 		override public function create_event(ett:Entity): void {
 			if(ett is Player && !_gave) {
-				dispatchEvent(new EntityEvent(EntityEvent.APPEAR + "ground", ""));
-				this.nextFrame();
+				dispatchEvent(new Event("PAUSE"));
 				_gave = true;
 			}
 		}

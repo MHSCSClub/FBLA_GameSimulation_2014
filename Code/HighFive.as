@@ -7,6 +7,11 @@
 	public class HighFive extends Entity{
 		
 		private var giveFive:Boolean = false;
+		public static var sayingsList1:Array;
+		public static var sayingsList2:Array;
+		public var choice:int = 1;
+		
+		public var num:int = 1;
 
 		public function HighFive(nx:Number, ny:Number, sig:int) {
 			super(nx, ny, sig);
@@ -23,6 +28,10 @@
 			if(!giveFive){
 				++Player.people_skill_count;
 				giveFive = true;
+				if(choice == 1)
+					dispatchEvent(new EntityEvent(EntityEvent.WORDDEF, sayingsList1[num-1]));
+				else
+					dispatchEvent(new EntityEvent(EntityEvent.WORDDEF, sayingsList2[num-1]));
 				this.gotoAndStop(2);
 			}
 		}

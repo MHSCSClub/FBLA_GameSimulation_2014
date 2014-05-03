@@ -29,7 +29,7 @@
 		}
 		private function bindChoice(eevt:EntityEvent): void {
 			choice = eevt.sig;
-			stage.removeEventListener(EntityEvent.BUTTONPRESS + "g", bindChoice);
+			stage.removeEventListener(EntityEvent.BUTTONPRESS + "g", bindChoice, true);
 		}
 	}
 	

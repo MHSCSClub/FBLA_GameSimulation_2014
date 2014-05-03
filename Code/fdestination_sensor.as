@@ -21,7 +21,7 @@
 				c.x = (this.width - c.width) / 2 + this.x;
 				c.y = (this.height - c.height) / 2 + this.y;
 				c.addEventListener(Event.ENTER_FRAME, c.bindEnterFrame);
-				c.addEventListener(EntityEvent.DEATH + "c", c.despawn);
+				c.addEventListener(EntityEvent.DEATH + "l", c.despawn);
 				(root as MovieClip).addChild(c);
 				Entity.envObj.push(c);
 				this.nextFrame();

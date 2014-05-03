@@ -17,7 +17,7 @@
 		}
 		public function despawn(eevt:EntityEvent): void {
 			this.removeEventListener(Event.ENTER_FRAME, bindEnterFrame);
-			this.removeEventListener(EntityEvent.DEATH + "c", despawn);
+			this.removeEventListener(EntityEvent.DEATH + "n", despawn);
 			(root as MovieClip).removeChild(this);
 		}
 	}

@@ -15,7 +15,7 @@
 			_button = getChildByName("l" + String(lvl));
 			_button.visible = true;
 			_button.stop();
-			if(Player.current_level < lvl) {
+			if(Player.max_level < lvl) {
 				this.cover.visible = true;
 			} else {
 				this.addEventListener(MouseEvent.MOUSE_OVER, overFunc);
@@ -31,6 +31,7 @@
 			_button.gotoAndStop(1);
 		}
 		private function clickFunc(mevt:MouseEvent) {
+			Player.current_level = lvl;
 			(root as MovieClip).gotoAndPlay(Player.lvl_offset + lvl);
 		}
 	}

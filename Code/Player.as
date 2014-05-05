@@ -22,8 +22,11 @@ package {
 		private static var _p_sig:int = -1;
 		
 		public static var current_level:int = 1;
+		public static var max_level:int = 1;
 		public static var lvl_offset:int = 4;
 		public static var score:int = 0;
+		public static var lvlscore:int = 0;
+		public static var scoreEnabled:Boolean = true;
 		
 		public static var people_skill_count:int = 0;
 		public static var leadership_skill:Boolean = false;

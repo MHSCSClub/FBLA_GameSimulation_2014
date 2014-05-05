@@ -10,6 +10,7 @@
 		private var giveFive:Boolean = false;
 		private var _sig:int;
 		
+		public static var enableSayings:Boolean = true;
 		public static var sayingsList1:Array;
 		public static var sayingsList2:Array;
 		public var choice:int = 0;
@@ -28,7 +29,7 @@
 			return c_obj.hitTestObject(ln) && !(c_obj is Player);
 		}
 		override public function x_setVariables(ett:Entity): void {
-			if(!giveFive){
+			if(!giveFive && (choice != 0 || !enableSayings)){
 				++Player.people_skill_count;
 				giveFive = true;
 				if(choice == 1)

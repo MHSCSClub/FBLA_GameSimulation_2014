@@ -19,7 +19,8 @@
 		"Skill 5: Negotiation! Pick up this smile.",
 		"Bring it to me! The more smiles you bring the higher the score!",
 		"Go in the elevator to finish the level.",
-		"Go to the table! -->",
+		"Go to the table!",
+		"P to pause"
 		];
 		
 		public function help_sensor() {

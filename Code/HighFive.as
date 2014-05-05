@@ -29,6 +29,8 @@
 			return c_obj.hitTestObject(ln) && !(c_obj is Player);
 		}
 		override public function x_setVariables(ett:Entity): void {
+			if(choice == 0)
+				dispatchEvent(new EntityEvent(EntityEvent.WORDDEF, "You have not spoken with the guide!"))
 			if(!giveFive && (choice != 0 || !enableSayings)){
 				++Player.people_skill_count;
 				giveFive = true;

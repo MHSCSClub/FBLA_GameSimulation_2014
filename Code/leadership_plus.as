@@ -13,7 +13,7 @@
 			this.jumpThroughEnabled = true;
 		}
 		public function bindEnterFrame(evt:Event): void {
-			this.alpha -= .04;
+			this.alpha -= .02;
 		}
 		public function despawn(eevt:EntityEvent): void {
 			this.removeEventListener(Event.ENTER_FRAME, bindEnterFrame);

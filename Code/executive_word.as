@@ -5,7 +5,7 @@
 		
 		public function executive_word() {
 			this._word = "executive";
-			this._def = "a person having administrative authority.";
+			this._def = "possessing administrative authority";
 		}
 	}
 	

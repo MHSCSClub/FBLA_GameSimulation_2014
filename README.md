@@ -1,18 +1,17 @@
 FBLA_Project
 ============
-Computer Simulation for FBLA 13-14 v1.03
+Computer Simulation for FBLA 13-14 v1.1
 
-**Play**
+## Play**
 
-The game is available at:
-sellingsmiles.neocities.org
+The game is available at on [this](sellingsmiles.neocities.org) website.
 
-Or you can download the "Game.swf" file
+You can also download the "Game.swf" file.
 
-**Achievments**
+## Achievments
 
 Our v1.0 version was an NY state winner!
 
-**Credits**
+## Credits
 
 --Yi Zhao, Jack Phillips, Victor Odouard

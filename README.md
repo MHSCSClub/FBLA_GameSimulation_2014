@@ -2,7 +2,7 @@ FBLA_Project
 ============
 Computer Simulation for FBLA 13-14 v1.1
 
-## Play**
+## Play
 
 The game is available at on [this](sellingsmiles.neocities.org) website.
 

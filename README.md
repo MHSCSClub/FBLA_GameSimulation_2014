@@ -4,7 +4,7 @@ Computer Simulation for FBLA 13-14 v1.1
 
 ## Play
 
-The game is available at on [this](sellingsmiles.neocities.org) website.
+The game is available at on [this](http://sellingsmiles.neocities.org) website.
 
 You can also download the "Game.swf" file.
 
